@@ -1,3 +1,4 @@
 name = "@PROJECT_NAME@"
 version = "@PROJECT_VERSION@"
-description = "Python bindings for MP4v2 library"
+description = "@PROJECT_DESCRIPTION@"
+author = "@PROJECT_AUTHOR@"

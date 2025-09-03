@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.14)
 # Установка имени проекта как переменной
 set(PROJECT_NAME pymp4v2)
 set(MODULE_NAME pymp4v2)
-set(PROJECT_VERSION 1.0.0)
+set(PROJECT_VERSION 0.1.0)
+set(PROJECT_AUTHOR "Dmitriy Efimov <daefimov@gmail.com>")
 set(PROJECT_DESCRIPTION "Python bindings for MP4v2 library")
 
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES CXX)
