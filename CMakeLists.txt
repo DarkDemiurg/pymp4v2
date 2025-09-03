@@ -3,9 +3,6 @@ cmake_minimum_required(VERSION 3.14)
 # Установка имени проекта как переменной
 set(PROJECT_NAME pymp4v2)
 set(MODULE_NAME pymp4v2)
-set(SOURCE_DIR src)
-set(INCLUDE_DIR include)
-set(LIB_DIR lib)
 set(PROJECT_VERSION 1.0.0)
 set(PROJECT_DESCRIPTION "Python bindings for MP4v2 library")
 
@@ -20,31 +17,60 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
 endif()
 
+####################### Сборка mp4v2
+
+set(MP4V2_URL "https://github.com/enzo1982/mp4v2.git")
+set(MP4V2_TAG "v2.1.3")
+
+# Включение модуля ExternalProject
+include(ExternalProject)
+
+# Загрузка и сборка MP4v2
+ExternalProject_Add(mp4v2_external
+    GIT_REPOSITORY ${MP4V2_URL}
+    GIT_TAG ${MP4V2_TAG}
+    PREFIX "${CMAKE_BINARY_DIR}/mp4v2"
+    INSTALL_DIR "${CMAKE_BINARY_DIR}/mp4v2_install"
+    CMAKE_ARGS 
+        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+        -DCMAKE_BUILD_TYPE=Release
+        -DBUILD_SHARED=OFF
+        -DBUILD_UTILS=OFF
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DCMAKE_CXX_FLAGS=-fPIC
+    BUILD_ALWAYS OFF
+    UPDATE_COMMAND ""
+)
+
+# Получение путей к установленным файлам MP4v2
+ExternalProject_Get_Property(mp4v2_external install_dir)
+set(MP4V2_INCLUDE_DIR "${install_dir}/include")
+set(MP4V2_LIBRARY "${install_dir}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}mp4v2${CMAKE_STATIC_LIBRARY_SUFFIX}")  # или .lib для Windows
+
+message(STATUS "MP4V2_INCLUDE_DIR: ${MP4V2_INCLUDE_DIR}")
+message(STATUS "MP4V2_LIBRARY: ${MP4V2_LIBRARY}")
+
+# Проверка существования путей
+if(NOT EXISTS "${MP4V2_INCLUDE_DIR}")
+    message(WARNING "MP4V2 include directory does not exist, creating: ${MP4V2_INCLUDE_DIR}")
+    file(MAKE_DIRECTORY "${MP4V2_INCLUDE_DIR}")
+endif()
+
+# Создание импортированной библиотеки
+add_library(mp4v2 STATIC IMPORTED)
+set_target_properties(mp4v2 PROPERTIES
+    IMPORTED_LOCATION "${MP4V2_LIBRARY}"
+    INTERFACE_INCLUDE_DIRECTORIES "${MP4V2_INCLUDE_DIR}"
+)
+
+# Добавление зависимостей
+add_dependencies(mp4v2 mp4v2_external)
+
+####################### Конец сборки mp4v2
+
 # Поиск Python и pybind11
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
-
-# Поиск библиотеки MP4v2
-find_library(MP4V2_LIBRARY mp4v2
-    PATHS ${LIB_DIR} /usr/lib /usr/local/lib
-)
-find_path(MP4V2_INCLUDE_DIR mp4v2/mp4v2.h
-    PATHS ${INCLUDE_DIR} /usr/include /usr/local/include
-)
-
-if(NOT MP4V2_LIBRARY)
-    message(FATAL_ERROR "MP4v2 library not found")
-endif()
-
-if(NOT MP4V2_INCLUDE_DIR)
-    message(FATAL_ERROR "MP4v2 headers not found")
-endif()
-
-# Проверка найденных компонентов
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(MP4V2
-    REQUIRED_VARS MP4V2_LIBRARY MP4V2_INCLUDE_DIR
-)
 
 # Создание модуля
 pybind11_add_module(${MODULE_NAME} src/mp4v2_wrapper.cpp)
@@ -57,8 +83,9 @@ target_include_directories(${MODULE_NAME} PRIVATE
 
 # Настройка линковки
 target_link_libraries(${MODULE_NAME} PRIVATE
-    ${MP4V2_LIBRARY}
+    mp4v2
     ${pybind11_LIBRARIES}
+    ${Python_LIBRARIES}
 )
 
 # Установка
