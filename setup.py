@@ -1,7 +1,8 @@
-from setuptools import setup, Extension
-import pybind11
 import sys
-import os
+from glob import glob
+from setuptools import setup
+from pybind11.setup_helpers import Pybind11Extension
+from pybind11 import get_include
 
 extra_compile_args=['-std=c++11']
 extra_link_args=[]
@@ -30,12 +31,12 @@ if sys.platform != "win32":
 
 # Настройка расширения
 ext_modules = [
-    Extension(
+    Pybind11Extension(
         'pymp4v2',
-        ['src/mp4v2_wrapper.cpp'],
+        sorted(glob("src/*.cpp")),
         include_dirs=[
-            pybind11.get_include(),
-            pybind11.get_include(True),
+            get_include(),
+            get_include(True),
             'include',  # Путь к заголовочным файлам MP4v2
             '/usr/local/include'  # Стандартный путь для заголовочных файлов
         ],
