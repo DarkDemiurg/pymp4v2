@@ -8,7 +8,8 @@
 
 namespace py = pybind11;
 
-class MP4File {
+class MP4File 
+{
 public:
     MP4File(const std::string& filename, const std::string& mode = "r");
     ~MP4File();
@@ -27,7 +28,6 @@ public:
     // std::string get_metadata(const std::string& key) const;
     // void set_metadata_item(const std::string& key, const std::string& value);
     // void clear_all_metadata();
-    
 
 private:
     MP4FileHandle handle = nullptr;

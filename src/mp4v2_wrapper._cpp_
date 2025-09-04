@@ -1,72 +1,81 @@
 #include <pybind11/pybind11.h>
-#include <pybind11/stl.h>  // Для преобразования STL контейнеров
+#include <pybind11/stl.h> // Для преобразования STL контейнеров
 #include "mp4v2/mp4v2.h"
 
 namespace py = pybind11;
 
 // Обертка для MP4FileHandle
-class MP4File {
+class MP4File
+{
 public:
-    MP4File(const std::string& filename) {
+    MP4File(const std::string &filename)
+    {
         handle = MP4Read(filename.c_str());
-        if (!handle) {
+
+        if (!handle)
+        {
             throw std::runtime_error("Failed to open MP4 file");
         }
     }
-    
-    ~MP4File() {
-        if (handle) {
+
+    ~MP4File()
+    {
+        if (handle)
+        {
             MP4Close(handle);
         }
     }
-    
+
     // Метод для получения типа трека
-    std::string get_track_type(int track_id) const {
-        const char* type = MP4GetTrackType(handle, track_id);
+    std::string get_track_type(int track_id) const
+    {
+        const char *type = MP4GetTrackType(handle, track_id);
         return type ? std::string(type) : "";
     }
 
     // Метод для получения textual summary of mp4 file
-    std::string get_info() const {
-        const char* info = MP4Info(handle);
+    std::string get_info() const
+    {
+        const char *info = MP4Info(handle);
         return info ? std::string(info) : "";
     }
 
     // Метод для получения имени файла
-    std::string get_filename() const {
+    std::string get_filename() const
+    {
         return std::string(MP4GetFilename(handle));
     }
-    
+
     // Добавление других методов по необходимости...
-    
+
 private:
     MP4FileHandle handle;
 };
 
 // Модуль Python
-PYBIND11_MODULE(pymp4v2, m) {
+PYBIND11_MODULE(pymp4v2, m)
+{
     m.doc() = "Python binding for MP4v2 library";
-    
+
     // Регистрация класса MP4File
     py::class_<MP4File>(m, "MP4File")
-        .def(py::init<const std::string&>())
+        .def(py::init<const std::string &>())
         .def("get_track_count", &MP4File::get_track_count)
         .def("get_track_type", &MP4File::get_track_type)
         .def("get_info", &MP4File::get_info)
         .def("get_filename", &MP4File::get_filename)
-        .def("close", [](MP4File& self) {
-            // Реализация метода close
-        });
-    
+        .def("close", [](MP4File &self)
+             {
+                 // Реализация метода close
+             });
+
     // Регистрация отдельных функций
-    m.def("read_mp4", [](const std::string& filename) {
-        return MP4Read(filename.c_str());
-    }, "Open an MP4 file");
-    
-    m.def("close_mp4", [](MP4FileHandle handle) {
-        MP4Close(handle);
-    }, "Close an MP4 file");
-    
+    m.def("read_mp4", [](const std::string &filename)
+          { return MP4Read(filename.c_str()); }, "Open an MP4 file");
+
+    m.def("close_mp4", [](MP4FileHandle handle)
+          { MP4Close(handle); }, "Close an MP4 file");
+
     // Регистрация констант
     m.attr("MP4_INVALID_TRACK_ID") = py::int_(MP4_INVALID_TRACK_ID);
 

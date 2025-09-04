@@ -4,8 +4,8 @@
 #include <string>
 #include <cstdint>
 
-namespace raw {
-
+namespace raw 
+{
     uintptr_t open_file(const std::string& filename, const std::string& mode = "r");
     void close_file(uintptr_t handle);
     int get_track_count(uintptr_t handle);

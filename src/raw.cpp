@@ -15,12 +15,12 @@ namespace raw {
         {
             handle = MP4Modify(filename.c_str(), 0);
         }
-        else 
+        else
         {
             throw std::runtime_error("Unsupported mode: " + mode);
         }
         
-        if (!handle) 
+        if (handle == nullptr)
         {
             throw std::runtime_error("Failed to open MP4 file: " + filename);
         }
