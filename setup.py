@@ -122,6 +122,7 @@ ext_modules = [
         include_dirs=[
             get_include(),
             get_include(True),
+            'include',
             '/usr/local/include'  # Стандартный путь для заголовочных файлов
         ],
         libraries=['mp4v2'],

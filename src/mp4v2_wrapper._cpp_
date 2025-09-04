@@ -20,11 +20,6 @@ public:
         }
     }
     
-    // Метод для получения количества треков
-    int get_track_count() const {
-        return MP4GetNumberOfTracks(handle);
-    }
-    
     // Метод для получения типа трека
     std::string get_track_type(int track_id) const {
         const char* type = MP4GetTrackType(handle, track_id);

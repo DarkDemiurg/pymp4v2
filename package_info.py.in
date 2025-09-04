@@ -2,3 +2,17 @@ name = "@PROJECT_NAME@"
 version = "@PROJECT_VERSION@"
 description = "@PROJECT_DESCRIPTION@"
 author = "@PROJECT_AUTHOR@"
+
+def get_info():
+    """Возвращает информацию о пакете"""
+    return {
+        "name": name,
+        "version": version,
+        "description": description,
+        "author": author
+    }
+
+if __name__ == "__main__":
+    info = get_info()
+    for key, value in info.items():
+        print(f"{key}: {value}")
