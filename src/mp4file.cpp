@@ -3,23 +3,29 @@
 
 MP4File::MP4File(const std::string &filename, const std::string &mode)
 {
-    if (mode == "r")
-    {
-        handle = MP4Read(filename.c_str());
-    }
-    else if (mode == "w" || mode == "a")
-    {
-        handle = MP4Modify(filename.c_str(), 0);
-    }
-    else
-    {
-        throw std::runtime_error("Unsupported mode: " + mode);
-    }
+    handle = MP4Read(filename.c_str());
 
-    if (handle != nullptr)
+    if (!handle)
     {
-        throw std::runtime_error("Failed to open MP4 file: " + filename);
+        throw std::runtime_error("Failed to open MP4 file");
     }
+    // if (mode == "r")
+    // {
+    //     handle = MP4Read(filename.c_str());
+    // }
+    // else if (mode == "w" || mode == "a")
+    // {
+    //     handle = MP4Modify(filename.c_str(), 0);
+    // }
+    // else
+    // {
+    //     throw std::runtime_error("Unsupported mode: " + mode);
+    // }
+
+    // if (handle != nullptr)
+    // {
+    //     throw std::runtime_error("Failed to open MP4 file: " + filename);
+    // }
 }
 
 MP4File::~MP4File()
@@ -61,4 +67,16 @@ void MP4File::save()
 bool MP4File::is_open() const
 {
     return handle != nullptr;
+}
+
+// Метод для получения textual summary of mp4 file
+std::string MP4File::get_info() const
+{
+    if (handle != nullptr)
+    {
+        const char *info = MP4Info(handle);
+        return info ? std::string(info) : "";
+    }
+
+    return "";
 }

@@ -4,12 +4,12 @@
 #include <string>
 #include <cstdint>
 
-namespace raw 
+namespace raw
 {
-    uintptr_t open_file(const std::string& filename, const std::string& mode = "r");
+    uintptr_t open_file(const std::string &filename, const std::string &mode = "r");
     void close_file(uintptr_t handle);
-    int get_track_count(uintptr_t handle);
-    std::string get_track_type(uintptr_t handle, int track_id);
+    // int get_track_count(uintptr_t handle);
+    // std::string get_track_type(uintptr_t handle, int track_id);
 
 } // namespace raw
 
