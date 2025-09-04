@@ -2,12 +2,13 @@ cmake_minimum_required(VERSION 3.14)
 
 # Установка имени проекта как переменной
 set(PROJECT_NAME pymp4v2)
-set(MODULE_NAME pymp4v2)
 set(PROJECT_VERSION 0.1.0)
-set(PROJECT_AUTHOR "Dmitriy Efimov <daefimov@gmail.com>")
-set(PROJECT_DESCRIPTION "Python bindings for MP4v2 library")
 
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES CXX)
+
+set(MODULE_NAME pymp4v2)
+set(PROJECT_AUTHOR "Dmitriy Efimov <daefimov@gmail.com>")
+set(PROJECT_DESCRIPTION "Python bindings for MP4v2 library")
 
 # Установка типа сборки по умолчанию
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -47,9 +48,6 @@ ExternalProject_Add(mp4v2_external
 ExternalProject_Get_Property(mp4v2_external install_dir)
 set(MP4V2_INCLUDE_DIR "${install_dir}/include")
 set(MP4V2_LIBRARY "${install_dir}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}mp4v2${CMAKE_STATIC_LIBRARY_SUFFIX}")  # или .lib для Windows
-
-message(STATUS "MP4V2_INCLUDE_DIR: ${MP4V2_INCLUDE_DIR}")
-message(STATUS "MP4V2_LIBRARY: ${MP4V2_LIBRARY}")
 
 # Проверка существования путей
 if(NOT EXISTS "${MP4V2_INCLUDE_DIR}")
