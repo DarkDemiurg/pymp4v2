@@ -1,36 +1,42 @@
-#include "pymp4v2/raw.h"
-#include "mp4v2/mp4v2.h"
 #include <stdexcept>
+#include <pybind11/pybind11.h>
 
-namespace raw {
+#include "mp4v2/mp4v2.h"
+#include "pymp4v2/raw.h"
 
-    uintptr_t open_file(const std::string& filename, const std::string& mode) 
+namespace py = pybind11;
+
+namespace raw
+{
+    MP4FileHandleWrapper MP4Read_wrapper(const char *fileName)
     {
-        MP4FileHandle handle = nullptr;
-        if (mode == "r") 
+        MP4FileHandle hFile = MP4Read(fileName);
+        if (hFile == nullptr)
         {
-            handle = MP4Read(filename.c_str());
+            throw std::runtime_error("Failed to open MP4 file: " + std::string(fileName));
         }
-        else if (mode == "w" || mode == "a") 
-        {
-            handle = MP4Modify(filename.c_str(), 0);
-        }
-        else
-        {
-            throw std::runtime_error("Unsupported mode: " + mode);
-        }
-        
-        if (handle == nullptr)
-        {
-            throw std::runtime_error("Failed to open MP4 file: " + filename);
-        }
-        
-        return reinterpret_cast<uintptr_t>(handle);
+
+        return MP4FileHandleWrapper(hFile);
     }
 
-    void close_file(uintptr_t handle) 
+    MP4FileHandleWrapper MP4Modify_wrapper(const char *fileName, uint32_t flags)
     {
-        MP4Close(reinterpret_cast<MP4FileHandle>(handle));
+        MP4FileHandle hFile = MP4Modify(fileName, flags);
+        if (hFile == nullptr)
+        {
+            throw std::runtime_error("Failed to modify MP4 file: " + std::string(fileName));
+        }
+
+        return MP4FileHandleWrapper(hFile);
     }
 
+    void MP4Close_wrapper(MP4FileHandleWrapper &hFile, uint32_t flags)
+    {
+        hFile.close(flags);
+    }
+
+    const char *MP4GetFilename_wrapper(MP4FileHandleWrapper &hFile)
+    {
+        return MP4GetFilename(hFile.get());
+    }
 } // namespace raw

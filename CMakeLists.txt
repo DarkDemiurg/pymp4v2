@@ -70,6 +70,7 @@ pybind11_add_module(${MODULE_NAME}
     src/main.cpp
     src/mp4file.cpp
     src/raw.cpp
+    src/mp4_file_handle_wrapper.cpp
 )
 
 # include directories setup
