@@ -62,7 +62,8 @@ PYBIND11_MODULE(pymp4v2, m)
 
     m.attr("MP4_INVALID_TRACK_ID") = py::int_(MP4_INVALID_TRACK_ID);
     m.attr("MP4_CLOSE_DO_NOT_COMPUTE_BITRATE") = py::int_(MP4_CLOSE_DO_NOT_COMPUTE_BITRATE); // for MP4Close flags
-
+    m.attr("MP4_CREATE_64BIT_TIME") = py::int_(MP4_CREATE_64BIT_TIME); // for MP4Create, MP4CreateEx, MP4CreateCallbacks, MP4CreateCallbacksEx flags
+    
     // Создание подмодуля для raw функций
     auto raw_module = m.def_submodule("raw", "Raw MP4v2 functions");
     // raw_module.def("get_track_count", &raw::get_track_count, "Get number of tracks in MP4 file");
@@ -116,13 +117,14 @@ PYBIND11_MODULE(pymp4v2, m)
                    R"doc(
     Close an mp4 file.
 
-    MP4Close closes a previously opened mp4 file. If the file was opened writable with MP4Create() or MP4Modify(), then MP4Close() will write out all pending information to disk.
+    MP4Close closes a previously opened mp4 file. If the file was opened writable with MP4Create() or MP4Modify(), 
+    then MP4Close() will write out all pending information to disk.
 
     Parameters
         hFile (MP4FileHandle):  handle of file to close.
-        flags (int):            bitmask that allows the user to set extra options for the close commands. 
+        flags (int):            Default is 0. Bitmask that allows the user to set extra options for the close commands. 
                                 Valid options include:
-                                    MP4_CLOSE_DO_NOT_COMPUTE_BITRATE      
+                                    MP4_CLOSE_DO_NOT_COMPUTE_BITRATE
 )doc");
 
     raw_module.def("MP4Dump", &raw::MP4Dump_wrapper, py::arg("hFile"), py::arg("dumpImplicits") = false, "Dump mp4 file contents as ASCII either to stdout or the log callback (see MP4SetLogCallback()).");
