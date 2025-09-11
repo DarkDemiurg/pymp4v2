@@ -1,7 +1,8 @@
 import os
 import sys
 import subprocess
-
+import shutil
+import multiprocessing
 from glob import glob
 from setuptools import setup
 from pybind11.setup_helpers import Pybind11Extension
@@ -56,18 +57,33 @@ class MP4V2Builder(build_ext):
         ]
         
         self._run_command(cmake_args, cwd=build_dir)
-        self._run_command(['cmake', '--build', '.', '--config', 'Release'], cwd=build_dir)
+        
+        # Определяем количество потоков для сборки
+        num_cores = multiprocessing.cpu_count()
+        build_threads = min(num_cores, 8)  # Ограничиваем максимальное количество потоков
+        
+        # Сборка MP4v2 с использованием нескольких потоков
+        if sys.platform == "win32":
+            # Для Windows используем флаг /m для многопоточной сборки
+            self._run_command(['cmake', '--build', '.', '--config', 'Release', '--', '/m'], cwd=build_dir)
+        else:
+            # Для Unix-систем используем флаг -j для указания количества потоков
+            self._run_command(['cmake', '--build', '.', '--config', 'Release', '--', f'-j{build_threads}'], cwd=build_dir)
+        
         self._run_command(['cmake', '--install', '.'], cwd=build_dir)
         
         # Сохранение путей для использования в расширении
         self.mp4v2_include_dir = os.path.join(temp_dir, 'include')
         self.mp4v2_library_dir = os.path.join(temp_dir, 'lib')
 
-        # Генерация package_info.py из шаблона
-        self._generate_package_info()
-
         # Продолжение стандартной сборки расширения
         super().run()
+
+        # Генерация stub-файлов после сборки расширения
+        self._generate_stubs()
+
+        # Генерация package_info.py из шаблона
+        self._generate_package_info()
     
     def build_extension(self, ext):
         # Добавление путей MP4v2 к расширению
@@ -83,7 +99,7 @@ class MP4V2Builder(build_ext):
     def _generate_package_info(self):
         """Генерация package_info.py из шаблона package_info.py.in"""
         template_path = os.path.join(os.getcwd(), 'package_info.py.in')
-        output_path = os.path.join(os.getcwd(), output_dir, 'package_info.py')
+        output_path = os.path.join(os.getcwd(), output_dir, PROJECT_NAME, 'package_info.py')
         
         if not os.path.exists(template_path):
             print(f"Warning: Template file {template_path} not found")
@@ -105,10 +121,40 @@ class MP4V2Builder(build_ext):
         
         print(f"Generated {output_path} from template")
 
-    def _run_command(self, command, cwd=None):
+    def _generate_stubs(self):
+        """Генерация stub-файлов (.pyi) для улучшения поддержки IDE"""
+        try:
+            # Проверяем, установлен ли pybind11-stubgen
+            import importlib
+            importlib.import_module('pybind11_stubgen')
+            
+            # Генерируем stub-файлы
+            stubgen_cmd = [
+                sys.executable, '-m', 'pybind11_stubgen',
+                PROJECT_NAME,
+                '--output-dir', output_dir
+            ]
+            
+            # Устанавливаем PYTHONPATH для поиска собранного модуля
+            env = os.environ.copy()
+            build_lib = self.build_lib or os.path.join(output_dir, 'lib')
+            if 'PYTHONPATH' in env:
+                env['PYTHONPATH'] = build_lib + os.pathsep + env['PYTHONPATH']
+            else:
+                env['PYTHONPATH'] = build_lib
+            
+            self._run_command(stubgen_cmd, env=env)
+
+        except ImportError:
+            print("Warning: pybind11-stubgen not installed. Stub files will not be generated.")
+            print("Install it with: pip install pybind11-stubgen")
+        except Exception as e:
+            print(f"Warning: Failed to generate stub files: {e}")
+
+    def _run_command(self, command, cwd=None, env=None):
         """Вспомогательная функция для выполнения команд"""
         try:
-            subprocess.check_call(command, cwd=cwd)
+            subprocess.check_call(command, cwd=cwd, env=env)
         except subprocess.CalledProcessError as e:
             print(f"Command failed: {e}")
             sys.exit(1)
@@ -142,10 +188,10 @@ setup(
     description=PROJECT_DESCRIPTION,
     ext_modules=ext_modules,
     cmdclass={'build_ext': MP4V2Builder},
-    setup_requires=['pybind11>=2.5.0'],
+    setup_requires=['pybind11>=2.5.0', 'pybind11-stubgen>=2.5.5'],
     install_requires=[],
     packages=[PROJECT_NAME],
-    package_data={PROJECT_NAME: ['package_info.py']},
+    package_data={PROJECT_NAME: [os.path.join(PROJECT_NAME, 'package_info.py'), '*.pyi']},
     include_package_data=True,
     zip_safe=False,
     options={

@@ -101,6 +101,24 @@ configure_file(
     @ONLY
 )
 
+# stub-files generation
+find_program(PYBIND11_STUBGEN pybind11-stubgen)
+if(PYBIND11_STUBGEN)
+    # Create a custom target for stub generation that runs after the module is built
+    add_custom_target(generate_stubs ALL
+        COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}:$ENV{PYTHONPATH} ${PYBIND11_STUBGEN} ${MODULE_NAME} -o ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating Python stub files"
+        DEPENDS ${MODULE_NAME}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    
+    # stub-files installation
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${MODULE_NAME}-stubs/${MODULE_NAME}.pyi
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages)
+else()
+    message(WARNING "pybind11-stubgen not found")
+endif()
+
 # make python package
 # file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/pymp4v2)
 # file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/pymp4v2/core)
