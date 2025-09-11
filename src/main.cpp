@@ -62,8 +62,8 @@ PYBIND11_MODULE(pymp4v2, m)
 
     m.attr("MP4_INVALID_TRACK_ID") = py::int_(MP4_INVALID_TRACK_ID);
     m.attr("MP4_CLOSE_DO_NOT_COMPUTE_BITRATE") = py::int_(MP4_CLOSE_DO_NOT_COMPUTE_BITRATE); // for MP4Close flags
-    m.attr("MP4_CREATE_64BIT_TIME") = py::int_(MP4_CREATE_64BIT_TIME); // for MP4Create, MP4CreateEx, MP4CreateCallbacks, MP4CreateCallbacksEx flags
-    
+    m.attr("MP4_CREATE_64BIT_TIME") = py::int_(MP4_CREATE_64BIT_TIME);                       // for MP4Create, MP4CreateEx, MP4CreateCallbacks, MP4CreateCallbacksEx flags
+
     // Создание подмодуля для raw функций
     auto raw_module = m.def_submodule("raw", "Raw MP4v2 functions");
     // raw_module.def("get_track_count", &raw::get_track_count, "Get number of tracks in MP4 file");
