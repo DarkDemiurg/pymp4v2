@@ -1,5 +1,5 @@
-#ifndef Pymp4v2_MP4FILE_H
-#define Pymp4v2_MP4FILE_H
+#ifndef PYMP4V2_MP4FILE_H
+#define PYMP4V2_MP4FILE_H
 
 #include <pybind11/pybind11.h>
 #include <string>
@@ -33,4 +33,4 @@ private:
     MP4FileHandle handle = nullptr;
 };
 
-#endif // Pymp4v2_MP4FILE_H
+#endif // PYMP4V2_MP4FILE_H

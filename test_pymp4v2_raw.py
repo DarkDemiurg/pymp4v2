@@ -26,6 +26,14 @@ print(f'MP4FileHandle = {h}')
 print(pymp4v2.raw.MP4GetFilename(h))
 pymp4v2.raw.MP4Close(h)
 
+print('===== Test MP4Dump')
+h = pymp4v2.raw.MP4Read(FILE_1)
+print(f'MP4FileHandle = {h}')
+print(pymp4v2.raw.MP4Dump(h))
+print('========== ')
+print(pymp4v2.raw.MP4Dump(h, True))
+pymp4v2.raw.MP4Close(h)
+
 print('===== Test context manager')
 with pymp4v2.raw.MP4Read(FILE_1) as file_handle:
     print(f'File handle valid is {file_handle.is_valid()}')

@@ -9,10 +9,10 @@
 namespace raw
 {
     MP4FileHandleWrapper MP4Read_wrapper(const char *fileName);
-    MP4FileHandleWrapper MP4Modify_wrapper(const char *fileName, uint32_t flags);
-    void MP4Close_wrapper(MP4FileHandleWrapper &hFile, uint32_t flags);
+    MP4FileHandleWrapper MP4Modify_wrapper(const char *fileName, uint32_t flags = 0);
+    void MP4Close_wrapper(MP4FileHandleWrapper &hFile, uint32_t flags = 0);
     const char *MP4GetFilename_wrapper(MP4FileHandleWrapper &hFile);
-
+    bool MP4Dump_wrapper(MP4FileHandleWrapper &hFile, bool dumpImplicits = false);
     // int get_track_count(uintptr_t handle);
     // std::string get_track_type(uintptr_t handle, int track_id);
 

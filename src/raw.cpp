@@ -39,4 +39,9 @@ namespace raw
     {
         return MP4GetFilename(hFile.get());
     }
+
+    bool MP4Dump_wrapper(MP4FileHandleWrapper &hFile, bool dumpImplicits)
+    {
+        return MP4Dump(hFile.get(), dumpImplicits);
+    }
 } // namespace raw
