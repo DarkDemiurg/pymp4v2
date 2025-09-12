@@ -4,7 +4,6 @@
 
 namespace py = pybind11;
 
-// Создание привязки для enum MP4LogLevel
 void bind_mp4_log_level(py::module &m)
 {
     py::enum_<MP4LogLevel>(m, "MP4LogLevel")
@@ -19,7 +18,6 @@ void bind_mp4_log_level(py::module &m)
         .export_values();
 }
 
-// Макрос для создания классов-псевдонимов
 #define CREATE_TYPE_ALIAS(alias_name, underlying_type)                          \
     py::class_<alias_name>(m, #alias_name)                                      \
         .def(py::init<underlying_type>())                                       \
@@ -31,7 +29,6 @@ PYBIND11_MODULE(pymp4v2, m)
 {
     m.doc() = "Python binding for MP4v2 library";
 
-    // Регистрируем класс MP4FileHandleWrapper
     py::class_<raw::MP4FileHandleWrapper>(m, "MP4FileHandle")
         .def(py::init<>())
         .def("is_valid", &raw::MP4FileHandleWrapper::is_valid)
@@ -41,8 +38,7 @@ PYBIND11_MODULE(pymp4v2, m)
         .def("__exit__", [](raw::MP4FileHandleWrapper &self, py::object exc_type, py::object exc_val, py::object exc_tb)
              {
                  self.close(0);
-                 return false; // Пропускаем исключения дальше
-             })
+                 return false; })
         .def("__repr__", [](const raw::MP4FileHandleWrapper &self)
              {
             if (self.is_valid()) {
@@ -51,14 +47,13 @@ PYBIND11_MODULE(pymp4v2, m)
                 return "<MP4FileHandle (closed)>";
             } });
 
-    // Создаем классы-псевдонимы с помощью макроса
     CREATE_TYPE_ALIAS(MP4TrackId, uint32_t)
     CREATE_TYPE_ALIAS(MP4SampleId, uint32_t)
     CREATE_TYPE_ALIAS(MP4Timestamp, uint64_t)
     CREATE_TYPE_ALIAS(MP4Duration, uint64_t)
     CREATE_TYPE_ALIAS(MP4EditId, uint32_t)
 
-    // Экспорт класса MP4File
+    // Export class MP4File
     py::class_<MP4File>(m, "MP4File")
         .def(py::init<const std::string &, const std::string &>(), py::arg("filename"), py::arg("mode") = "r")
         .def("close", &MP4File::close)
@@ -83,7 +78,6 @@ PYBIND11_MODULE(pymp4v2, m)
     auto raw_module = m.def_submodule("raw", "Raw MP4v2 functions");
     // raw_module.def("get_track_count", &raw::get_track_count, "Get number of tracks in MP4 file");
     // raw_module.def("get_track_type", &raw::get_track_type, py::arg("handle"), py::arg("track_id"), "Get type of specific track");
-    // Добавьте другие функции по мере необходимости
 
     raw_module.def("MP4Read", &raw::MP4Read_wrapper, py::arg("fileName"), py::return_value_policy::move,
                    R"doc(
@@ -200,7 +194,7 @@ PYBIND11_MODULE(pymp4v2, m)
     Returns:
         On success a string containing summary information. On failure, None.
 )doc");
-    // Привязка enum MP4LogLevel
+
     bind_mp4_log_level(m);
 
     raw_module.def("MP4LogSetLevel", &MP4LogSetLevel, py::arg("verbosity"), "Set the maximum log level.");
