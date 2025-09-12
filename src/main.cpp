@@ -19,6 +19,14 @@ void bind_mp4_log_level(py::module &m)
         .export_values();
 }
 
+// Макрос для создания классов-псевдонимов
+#define CREATE_TYPE_ALIAS(alias_name, underlying_type)                          \
+    py::class_<alias_name>(m, #alias_name)                                      \
+        .def(py::init<underlying_type>())                                       \
+        .def("__int__", [](alias_name self) { return self; })                   \
+        .def("__repr__", [](alias_name self) { return std::to_string(self); }); \
+    py::implicitly_convertible<underlying_type, alias_name>();
+
 PYBIND11_MODULE(pymp4v2, m)
 {
     m.doc() = "Python binding for MP4v2 library";
@@ -42,6 +50,13 @@ PYBIND11_MODULE(pymp4v2, m)
             } else {
                 return "<MP4FileHandle (closed)>";
             } });
+
+    // Создаем классы-псевдонимы с помощью макроса
+    CREATE_TYPE_ALIAS(MP4TrackId, uint32_t)
+    CREATE_TYPE_ALIAS(MP4SampleId, uint32_t)
+    CREATE_TYPE_ALIAS(MP4Timestamp, uint64_t)
+    CREATE_TYPE_ALIAS(MP4Duration, uint64_t)
+    CREATE_TYPE_ALIAS(MP4EditId, uint32_t)
 
     // Экспорт класса MP4File
     py::class_<MP4File>(m, "MP4File")
@@ -91,6 +106,30 @@ PYBIND11_MODULE(pymp4v2, m)
         RuntimeError: On any error.
 )doc");
 
+    raw_module.def("MP4Create", &raw::MP4Create_wrapper, py::arg("fileName"), py::arg("flags") = 0, py::return_value_policy::move,
+                   R"doc(
+    Create a new mp4 file.
+
+    MP4Create is the first call that should be used when you want to create a new, empty mp4 file. 
+    It is equivalent to opening a file for writing, but is also involved with the 
+    creation of necessary mp4 framework structures. 
+    I.e. invoking MP4Create() followed by MP4Close() will result in a file with a non-zero size.
+
+    Args:
+        fileName (str):	pathname of the file to be created. On Windows, this should be a UTF-8 encoded string. 
+                        On other platforms, it should be an 8-bit encoding that is appropriate for the platform, 
+                        locale, file system, etc. (prefer to use UTF-8 when possible).
+        flags (int):	Default is 0. Bitmask that allows the user to set 64-bit values for data or time atoms. 
+                        Valid bits may be any combination of:
+                            `MP4_CREATE_64BIT_DATA`
+                            `MP4_CREATE_64BIT_TIME`
+    Returns:
+        A handle of the newly created file for use in subsequent calls to the library.
+
+    Raises:
+        RuntimeError: On any error.        
+)doc");
+
     raw_module.def("MP4Modify", &raw::MP4Modify_wrapper, py::arg("fileName"), py::arg("flags") = 0, py::return_value_policy::move,
                    R"doc(
     Modify an existing mp4 file.
@@ -100,13 +139,13 @@ PYBIND11_MODULE(pymp4v2, m)
     Since modifications to an existing mp4 file can result in a sub-optimal file layout, 
     you may want to use MP4Optimize() after you have modified and closed the mp4 file.
 
-    Parameters
+    Args:
         fileName (str):	pathname of the file to be modified. On Windows, this should be a UTF-8 encoded string. 
                         On other platforms, it should be an 8-bit encoding that is appropriate for the platform, 
                         locale, file system, etc. (prefer to use UTF-8 when possible).
         flags (int):	currently ignored.
 
-    Returns
+    Returns:
         A handle of the file for use in subsequent calls to the library.
 
     Raises:
@@ -130,6 +169,37 @@ PYBIND11_MODULE(pymp4v2, m)
     raw_module.def("MP4Dump", &raw::MP4Dump_wrapper, py::arg("hFile"), py::arg("dumpImplicits") = false, "Dump mp4 file contents as ASCII either to stdout or the log callback (see MP4SetLogCallback()).");
     raw_module.def("MP4GetFilename", &raw::MP4GetFilename_wrapper, py::arg("hFile"), "Accessor for the filename associated with a file handle.");
 
+    raw_module.def("MP4Info", &raw::MP4Info_wrapper, py::arg("hFile"), py::arg("trackId") = MP4_INVALID_TRACK_ID,
+                   R"doc(
+    Return a textual summary of an mp4 file.
+
+    MP4FileInfo provides a string that contains a textual summary of the contents of an mp4 file. 
+    This includes the track id's, the track type, and track specific information. 
+    For example, for a video track, media encoding, image size, frame rate, and bitrate are summarized.
+
+    Note that the returned string is allocated by the library, so it is the caller's responsibility
+    to release the string with MP4Free(). 
+    Also note that the returned string contains newlines and tabs which may or may not be desirable.
+
+    Args:
+        hFile (MP4FileHandle):  handle of file to summarize.
+        trackId (MP4TrackId):   trackId specifies track to summarize. If the value is `MP4_INVALID_TRACK_ID`,
+                                the summary info is created for all tracks in the file.
+
+    Examples:
+        The following is an example of the output of MP4Info():
+
+        Track  Type   Info
+        1      video  MPEG-4 Simple @ L3, 119.625 secs, 1008 kbps, 352x288 @ 24.00 fps
+        2      audio  MPEG-4, 119.327 secs, 128 kbps, 44100 Hz
+        3      hint   Payload MP4V-ES for track 1
+        4      hint   Payload mpeg4-generic for track 2
+        5      od     Object Descriptors
+        6      scene  BIFS
+        
+    Returns:
+        On success a string containing summary information. On failure, None.
+)doc");
     // Привязка enum MP4LogLevel
     bind_mp4_log_level(m);
 
