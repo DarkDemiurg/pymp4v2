@@ -53,7 +53,8 @@ class MP4V2Builder(build_ext):
             '-DBUILD_SHARED=OFF',
             '-DBUILD_UTILS=OFF',
             '-DCMAKE_POSITION_INDEPENDENT_CODE=ON',
-            '-DCMAKE_CXX_FLAGS=-fPIC'
+            '-DCMAKE_CXX_FLAGS=-fPIC',
+            '-DCMAKE_POLICY_VERSION_MINIMUM=3.14'
         ]
         
         self._run_command(cmake_args, cwd=build_dir)

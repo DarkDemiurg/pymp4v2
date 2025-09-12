@@ -3,7 +3,7 @@ requires = [
     "setuptools>=42",
     "wheel",
     "scikit-build>=0.13",
-    "cmake>=3.18",
+    "cmake>=3.14",
     "ninja",
     "pybind11>=2.6.0",
     "pybind11-stubgen>=2.5.5"
@@ -21,6 +21,10 @@ authors = [
   {name = "Dmitriy Efimov", email = "daefimov@gmail.com"}
 ]
 classifiers = [
+    "Private :: Do Not Upload",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: POSIX :: Linux",    
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -31,7 +35,30 @@ classifiers = [
 ]
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/DarkDemiurg/pymp4v2"
+Documentation = "https://github.com/DarkDemiurg/pymp4v2"
+Repository = "https://github.com/DarkDemiurg/pymp4v2.git"
+Issues = "https://github.com/DarkDemiurg/pymp4v2/issues"
+Changelog = "https://github.com/DarkDemiurg/pymp4v2/blob/master/CHANGELOG.md"
+
 [tool.scikit-build]
 cmake-args = [
     "-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.9",
 ]
+
+[tool.setuptools]
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+platforms = ["Linux", "Windows"]
+include-package-data = true
+zip-safe = false  # This just means it's not safe to zip up the bdist
+
+# Non-code data that should be included in the package source code
+# https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+# [tool.setuptools.package-data]
+# acme = ["*.xml"]
+
+# Python modules and packages that are included in the
+# distribution package (and therefore become importable)
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*", "examples"]
