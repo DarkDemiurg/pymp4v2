@@ -61,6 +61,48 @@ add_dependencies(mp4v2 mp4v2_external)
 
 ####################### Finish building mp4v2
 
+
+# Проверяем, что pybind11_DIR установлена и не содержит NOTFOUND
+if(DEFINED pybind11_DIR AND NOT pybind11_DIR STREQUAL "pybind11_DIR-NOTFOUND" AND EXISTS "${pybind11_DIR}")
+    message(STATUS "Using pybind11 from: ${pybind11_DIR}")
+    find_package(pybind11 REQUIRED)
+else()
+    # pybind11_DIR не установлена или содержит NOTFOUND, пытаемся найти автоматически
+    message(STATUS "pybind11_DIR not set or invalid, trying to find pybind11 automatically...")
+    
+    # Сначала попробуем найти через Python
+    execute_process(
+        COMMAND ${PYTHON_EXECUTABLE} -c "try:\n    import pybind11\n    import os\n    print(os.path.dirname(pybind11.__file__))\nexcept:\n    exit(1)"
+        OUTPUT_VARIABLE PYTHON_PYBIND11_PATH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        RESULT_VARIABLE pybind11_find_result
+    )
+    
+    if(pybind11_find_result EQUAL 0)
+        # Проверяем существование стандартного пути к CMake файлам
+        set(PYBIND11_CMAKE_PATH "${PYTHON_PYBIND11_PATH}/share/cmake/pybind11")
+        if(EXISTS "${PYBIND11_CMAKE_PATH}")
+            set(pybind11_DIR "${PYBIND11_CMAKE_PATH}" CACHE PATH "Path to pybind11 CMake files" FORCE)
+        else()
+            # Проверяем альтернативный путь (для некоторых систем)
+            set(PYBIND11_CMAKE_PATH "${PYTHON_PYBIND11_PATH}/../share/cmake/pybind11")
+            get_filename_component(PYBIND11_CMAKE_PATH "${PYBIND11_CMAKE_PATH}" ABSOLUTE)
+            if(EXISTS "${PYBIND11_CMAKE_PATH}")
+                set(pybind11_DIR "${PYBIND11_CMAKE_PATH}" CACHE PATH "Path to pybind11 CMake files" FORCE)
+            else()
+                # Если ничего не найдено, используем корневой путь
+                set(pybind11_DIR "${PYTHON_PYBIND11_PATH}" CACHE PATH "Path to pybind11" FORCE)
+            endif()
+        endif()
+        
+        find_package(pybind11 REQUIRED)
+    endif()
+endif()
+
+
+
+find_package(pybind11 REQUIRED)
+
 # Find Python and pybind11
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
