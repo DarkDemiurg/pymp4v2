@@ -191,7 +191,6 @@ setup(
     long_description_content_type='text/markdown',
     ext_modules=ext_modules,
     cmdclass={'build_ext': MP4V2Builder},
-    setup_requires=['pybind11>=2.5.0', 'pybind11-stubgen>=2.5.5'],
     install_requires=[],
     packages=[PROJECT_NAME],
     package_data={PROJECT_NAME: [os.path.join(PROJECT_NAME, 'package_info.py'), '*.pyi']},
