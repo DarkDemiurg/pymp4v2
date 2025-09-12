@@ -87,6 +87,17 @@ target_link_libraries(${MODULE_NAME} PRIVATE
     ${Python_LIBRARIES}
 )
 
+if(WIN32)
+    message(STATUS "Building on Windows")
+    # Windows-специфичные настройки
+    target_compile_definitions(${MODULE_NAME} PRIVATE
+        MP4V2_USE_STATIC_LIB=1
+    )
+else()
+    message(STATUS "Building on Unix-like system")
+    # Unix-специфичные настройки
+endif()
+
 # add package info
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/package_info.py.in
