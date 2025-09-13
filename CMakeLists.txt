@@ -75,7 +75,7 @@ if(WIN32)
         message(STATUS "pybind11_DIR not set or invalid, trying to find pybind11 automatically...")
 
         execute_process(
-            COMMAND ${Python_EXECUTABLE} -c "try:\n    import pybind11\n    import os\n    print(os.path.dirname(pybind11.__file__))\nexcept:\n    exit(1)"
+            COMMAND ${Python3_EXECUTABLE} -c "try:\n    import pybind11\n    import os\n    print(os.path.dirname(pybind11.__file__))\nexcept:\n    exit(1)"
             OUTPUT_VARIABLE PYTHON_PYBIND11_PATH
             OUTPUT_STRIP_TRAILING_WHITESPACE
             RESULT_VARIABLE pybind11_find_result
