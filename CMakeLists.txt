@@ -62,7 +62,7 @@ add_dependencies(mp4v2 mp4v2_external)
 ####################### Finish building mp4v2
 
 # Find Python and pybind11
-find_package(Python REQUIRED COMPONENTS Interpreter Development)
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
 if(WIN32)
     if(DEFINED pybind11_DIR AND NOT pybind11_DIR STREQUAL "" AND NOT pybind11_DIR MATCHES "NOTFOUND" AND EXISTS "${pybind11_DIR}")
