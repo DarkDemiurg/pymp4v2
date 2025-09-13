@@ -48,10 +48,10 @@ PYBIND11_MODULE(pymp4v2, m)
             } });
 
     CREATE_TYPE_ALIAS(MP4TrackId, uint32_t)
-    CREATE_TYPE_ALIAS(MP4SampleId, uint32_t)
-    CREATE_TYPE_ALIAS(MP4Timestamp, uint64_t)
-    CREATE_TYPE_ALIAS(MP4Duration, uint64_t)
-    CREATE_TYPE_ALIAS(MP4EditId, uint32_t)
+    // CREATE_TYPE_ALIAS(MP4SampleId, uint32_t)
+    // CREATE_TYPE_ALIAS(MP4Timestamp, uint64_t)
+    // CREATE_TYPE_ALIAS(MP4Duration, uint64_t)
+    // CREATE_TYPE_ALIAS(MP4EditId, uint32_t)
 
     // Export class MP4File
     py::class_<MP4File>(m, "MP4File")
