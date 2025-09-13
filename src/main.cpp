@@ -18,13 +18,6 @@ void bind_mp4_log_level(py::module &m)
         .export_values();
 }
 
-#define CREATE_TYPE_ALIAS(alias_name, underlying_type)                          \
-    py::class_<alias_name>(m, #alias_name)                                      \
-        .def(py::init<underlying_type>())                                       \
-        .def("__int__", [](alias_name self) { return self; })                   \
-        .def("__repr__", [](alias_name self) { return std::to_string(self); }); \
-    py::implicitly_convertible<underlying_type, alias_name>();
-
 PYBIND11_MODULE(pymp4v2, m)
 {
     m.doc() = "Python binding for MP4v2 library";
@@ -47,11 +40,11 @@ PYBIND11_MODULE(pymp4v2, m)
                 return "<MP4FileHandle (closed)>";
             } });
 
-    CREATE_TYPE_ALIAS(MP4TrackId, uint32_t)
-    // CREATE_TYPE_ALIAS(MP4SampleId, uint32_t)
-    // CREATE_TYPE_ALIAS(MP4Timestamp, uint64_t)
-    // CREATE_TYPE_ALIAS(MP4Duration, uint64_t)
-    // CREATE_TYPE_ALIAS(MP4EditId, uint32_t)
+    m.attr("MP4TrackId") = py::module::import("typing").attr("NewType")("MP4TrackId", py::int_());
+    m.attr("MP4SampleId") = py::module::import("typing").attr("NewType")("MP4SampleId", py::int_());
+    m.attr("MP4Timestamp") = py::module::import("typing").attr("NewType")("MP4Timestamp", py::int_());
+    m.attr("MP4Duration") = py::module::import("typing").attr("NewType")("MP4Duration", py::int_());
+    m.attr("MP4EditId") = py::module::import("typing").attr("NewType")("MP4EditId", py::int_());
 
     // Export class MP4File
     py::class_<MP4File>(m, "MP4File")
@@ -70,7 +63,7 @@ PYBIND11_MODULE(pymp4v2, m)
     // .def("set_metadata_item", &MP4File::set_metadata_item)
     // .def("clear_all_metadata", &MP4File::clear_all_metadata)
 
-    m.attr("MP4_INVALID_TRACK_ID") = py::int_(MP4_INVALID_TRACK_ID);
+    m.attr("MP4_INVALID_TRACK_ID") = py::cast(MP4_INVALID_TRACK_ID);
     m.attr("MP4_CLOSE_DO_NOT_COMPUTE_BITRATE") = py::int_(MP4_CLOSE_DO_NOT_COMPUTE_BITRATE); // for MP4Close flags
     m.attr("MP4_CREATE_64BIT_TIME") = py::int_(MP4_CREATE_64BIT_TIME);                       // for MP4Create, MP4CreateEx, MP4CreateCallbacks, MP4CreateCallbacksEx flags
 
@@ -115,8 +108,8 @@ PYBIND11_MODULE(pymp4v2, m)
                         locale, file system, etc. (prefer to use UTF-8 when possible).
         flags (int):	Default is 0. Bitmask that allows the user to set 64-bit values for data or time atoms. 
                         Valid bits may be any combination of:
-                            `MP4_CREATE_64BIT_DATA`
-                            `MP4_CREATE_64BIT_TIME`
+                            `pymp4v2.MP4_CREATE_64BIT_DATA`
+                            `pymp4v2.MP4_CREATE_64BIT_TIME`
     Returns:
         A handle of the newly created file for use in subsequent calls to the library.
 
@@ -157,7 +150,7 @@ PYBIND11_MODULE(pymp4v2, m)
         hFile (MP4FileHandle):  handle of file to close.
         flags (int):            Default is 0. Bitmask that allows the user to set extra options for the close commands. 
                                 Valid options include:
-                                    MP4_CLOSE_DO_NOT_COMPUTE_BITRATE
+                                    `pymp4v2.MP4_CLOSE_DO_NOT_COMPUTE_BITRATE`
 )doc");
 
     raw_module.def("MP4Dump", &raw::MP4Dump_wrapper, py::arg("hFile"), py::arg("dumpImplicits") = false, "Dump mp4 file contents as ASCII either to stdout or the log callback (see MP4SetLogCallback()).");
@@ -179,17 +172,6 @@ PYBIND11_MODULE(pymp4v2, m)
         hFile (MP4FileHandle):  handle of file to summarize.
         trackId (MP4TrackId):   trackId specifies track to summarize. If the value is `MP4_INVALID_TRACK_ID`,
                                 the summary info is created for all tracks in the file.
-
-    Examples:
-        The following is an example of the output of MP4Info():
-
-        Track  Type   Info
-        1      video  MPEG-4 Simple @ L3, 119.625 secs, 1008 kbps, 352x288 @ 24.00 fps
-        2      audio  MPEG-4, 119.327 secs, 128 kbps, 44100 Hz
-        3      hint   Payload MP4V-ES for track 1
-        4      hint   Payload mpeg4-generic for track 2
-        5      od     Object Descriptors
-        6      scene  BIFS
         
     Returns:
         On success a string containing summary information. On failure, None.
