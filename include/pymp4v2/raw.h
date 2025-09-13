@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <optional>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include "pymp4v2/mp4_file_handle_wrapper.h"
 
@@ -18,7 +19,7 @@ namespace raw
     void MP4Close_wrapper(MP4FileHandleWrapper &hFile, uint32_t flags = 0);
     const char *MP4GetFilename_wrapper(MP4FileHandleWrapper &hFile);
     bool MP4Dump_wrapper(MP4FileHandleWrapper &hFile, bool dumpImplicits = false);
-    py::object MP4Info_wrapper(MP4FileHandleWrapper &hFile, MP4TrackId trackId);
+    std::optional<std::string> MP4Info_wrapper(MP4FileHandleWrapper &hFile, MP4TrackId trackId);
 
     // int get_track_count(uintptr_t handle);
     // std::string get_track_type(uintptr_t handle, int track_id);

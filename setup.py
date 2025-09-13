@@ -1,14 +1,13 @@
-import os
-import sys
 import importlib
-import subprocess
-import shutil
 import multiprocessing
+import os
+import shutil
+import subprocess
+import sys
 from glob import glob
-from setuptools import setup
-from pybind11.setup_helpers import Pybind11Extension
-from pybind11 import get_include
 
+from pybind11 import get_include
+from pybind11.setup_helpers import Pybind11Extension
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
 
@@ -17,24 +16,20 @@ PROJECT_AUTHOR = "Dmitriy Efimov <daefimov@gmail.com>"
 PROJECT_VERSION = "0.1.0"
 PROJECT_DESCRIPTION = "Python bindings for MP4v2 library"
 
-extra_compile_args = ["-std=c++11"]
+extra_compile_args = []
 extra_link_args = []
 
 output_dir = "build"
 
-# Определяем флаги оптимизации в зависимости от платформы
 if sys.platform == "win32":
-    # Для Windows
-    extra_compile_args.extend(
-        ["/O2", "/DNDEBUG", "/GL"]
-    )  # Максимальная оптимизация, без отладки, глобальная оптимизация
-    extra_link_args.extend(
-        ["/LTCG", "/OPT:REF", "/OPT:ICF"]
-    )  # Link-time code generation, удаление неиспользуемого кода
+    # For Windows
+    extra_compile_args.extend(["/std:c++17", "/O2", "/DNDEBUG", "/GL"])
+    extra_link_args.extend(["/LTCG", "/OPT:REF", "/OPT:ICF"])
 else:
-    # Для Linux/macOS
+    # For Linux/macOS
     extra_compile_args.extend(
         [
+            "-std=c++17",
             "-O3",
             "-DNDEBUG",
             "-flto",
@@ -42,10 +37,8 @@ else:
             "-ffunction-sections",
             "-fdata-sections",
         ]
-    )  # Максимальная оптимизация, без отладки, LTO
-    extra_link_args.extend(
-        ["-flto", "-s", "-Wl,--gc-sections", "-Wl,--strip-all"]
-    )  # Link-time optimization, удаление символов
+    )
+    extra_link_args.extend(["-flto", "-s", "-Wl,--gc-sections", "-Wl,--strip-all"])
 
 
 class MP4V2Builder(build_ext):
@@ -69,10 +62,9 @@ class MP4V2Builder(build_ext):
         )
 
         # Создание директории для сборки
-        build_dir = os.path.join(mp4v2_dir, "build")
+        build_dir = os.path.join(mp4v2_dir, output_dir)
         os.makedirs(build_dir, exist_ok=True)
-
-        # Конфигурация и сборка MP4v2 как статической библиотеки
+        
         cmake_args = [
             "cmake",
             "..",
@@ -81,27 +73,30 @@ class MP4V2Builder(build_ext):
             "-DBUILD_SHARED=OFF",
             "-DBUILD_UTILS=OFF",
             "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
-            "-DCMAKE_CXX_FLAGS=-fPIC",
-            "-DCMAKE_POLICY_VERSION_MINIMUM=3.14",
         ]
 
+        # Для Windows добавляем дополнительные флаги
+        if sys.platform == "win32":
+            cmake_args.extend(["-DCMAKE_CXX_FLAGS=/std:c++17 /fPIC"])
+        else:
+            cmake_args.extend(
+                [
+                    "-DCMAKE_CXX_FLAGS=-fPIC -std=c++17",
+                ]
+            )
         self._run_command(cmake_args, cwd=build_dir)
 
         # Определяем количество потоков для сборки
         num_cores = multiprocessing.cpu_count()
-        build_threads = min(
-            num_cores, 8
-        )  # Ограничиваем максимальное количество потоков
+        build_threads = min(num_cores, 8)
 
-        # Сборка MP4v2 с использованием нескольких потоков
+        # Добавляем флаг C++17 и для сборки MP4v2
         if sys.platform == "win32":
-            # Для Windows используем флаг /m для многопоточной сборки
             self._run_command(
                 ["cmake", "--build", ".", "--config", "Release", "--", "/m"],
                 cwd=build_dir,
             )
         else:
-            # Для Unix-систем используем флаг -j для указания количества потоков
             self._run_command(
                 [
                     "cmake",

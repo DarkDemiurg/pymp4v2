@@ -5,6 +5,9 @@ set(PROJECT_VERSION 0.1.0)
 
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(MODULE_NAME pymp4v2)
 set(PROJECT_AUTHOR "Dmitriy Efimov <daefimov@gmail.com>")
 set(PROJECT_DESCRIPTION "Python bindings for MP4v2 library")

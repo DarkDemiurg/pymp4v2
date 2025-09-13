@@ -55,13 +55,13 @@ namespace raw
         return MP4Dump(hFile.get(), dumpImplicits);
     }
 
-    py::object MP4Info_wrapper(MP4FileHandleWrapper &hFile, MP4TrackId trackId)
+    std::optional<std::string> MP4Info_wrapper(MP4FileHandleWrapper &hFile, MP4TrackId trackId)
     {
         const char *info = MP4Info(hFile.get(), trackId);
         if (info == nullptr)
         {
-            return py::none();
+            return std::nullopt; // Возвращаем std::nullopt вместо py::none()
         }
-        return py::str(info);
+        return std::string(info); // Возвращаем std::string вместо py::str
     }
 } // namespace raw
