@@ -23,7 +23,9 @@ output_dir = "build"
 
 if sys.platform == "win32":
     # For Windows
-    extra_compile_args.extend(["/std:c++17", "/O2", "/DNDEBUG", "/GL"])
+    extra_compile_args.extend(
+        ["/std:c++17", "/O2", "/DNDEBUG", "/GL", "/DMP4V2_USE_STATIC_LIB=1"]
+    )
     extra_link_args.extend(["/LTCG", "/OPT:REF", "/OPT:ICF"])
 else:
     # For Linux/macOS
@@ -64,7 +66,7 @@ class MP4V2Builder(build_ext):
         # Создание директории для сборки
         build_dir = os.path.join(mp4v2_dir, output_dir)
         os.makedirs(build_dir, exist_ok=True)
-        
+
         cmake_args = [
             "cmake",
             "..",
@@ -73,15 +75,16 @@ class MP4V2Builder(build_ext):
             "-DBUILD_SHARED=OFF",
             "-DBUILD_UTILS=OFF",
             "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+            "-DCMAKE_CXX_FLAGS=-fPIC",
         ]
 
         # Для Windows добавляем дополнительные флаги
         if sys.platform == "win32":
-            cmake_args.extend(["-DCMAKE_CXX_FLAGS=/std:c++17 /fPIC"])
+            cmake_args.extend(["-DCMAKE_CXX_FLAGS=/std:c++17"])
         else:
             cmake_args.extend(
                 [
-                    "-DCMAKE_CXX_FLAGS=-fPIC -std=c++17",
+                    "-DCMAKE_CXX_FLAGS=-std=c++17",
                 ]
             )
         self._run_command(cmake_args, cwd=build_dir)

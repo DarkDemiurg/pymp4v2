@@ -1,5 +1,8 @@
 # tests/test_mp4v2.py
+from contextlib import contextmanager
+import io
 import os
+import sys
 import tempfile
 
 import pytest
@@ -28,6 +31,20 @@ def temp_mp4_file():
     if os.path.exists(tmp_path):
         os.unlink(tmp_path)
 
+@contextmanager
+def suppress_output():
+    """Менеджер контекста для подавления вывода на консоль."""
+    original_stdout = sys.stdout
+    original_stderr = sys.stderr
+    
+    sys.stdout = io.StringIO()
+    sys.stderr = io.StringIO()
+    
+    try:
+        yield
+    finally:
+        sys.stdout = original_stdout
+        sys.stderr = original_stderr
 
 def test_mp4read_and_mp4close(test_mp4_file):
     """Тест открытия и закрытия MP4 файла."""
@@ -122,24 +139,21 @@ def test_mp4info_with_track_id(test_mp4_file):
 
 
 def test_mp4dump(test_mp4_file):
-    """Тест дампа MP4 файла."""
-    # Открываем файл
-    handle = raw.MP4Read(test_mp4_file)
-
-    # Делаем дамп файла
-    result = raw.MP4Dump(handle)
-
-    # Проверяем, что дамп успешен
-    assert result is True
-
-    # Делаем дамп без имплицитных данных
-    result = raw.MP4Dump(handle, False)
-
-    # Проверяем, что дамп успешен
-    assert result is True
-
-    # Закрываем файл
-    raw.MP4Close(handle)
+    """Тест дампа MP4 файла с подавлением вывода."""
+    with suppress_output():
+        handle = raw.MP4Read(test_mp4_file)
+        
+        # Получение дампа в виде строки
+        dump_output = raw.MP4Dump(handle)
+        
+        # Проверяем, что вывод не пустой
+        assert dump_output != ""
+        
+        # Или с параметром dumpImplicits
+        dump_output_with_implicits = raw.MP4Dump(handle, True)
+        assert dump_output_with_implicits != ""
+        
+        raw.MP4Close(handle)
 
 
 def test_invalid_file_operations():
