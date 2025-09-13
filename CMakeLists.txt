@@ -11,11 +11,11 @@ set(PROJECT_DESCRIPTION "Python bindings for MP4v2 library")
 
 # Set default build type
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Set default build type: RelWithDebInfo")
-  set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Тип сборки" FORCE)
-  
-  # Set possible build types for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
+    message(STATUS "Set default build type: RelWithDebInfo")
+    set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Тип сборки" FORCE)
+
+    # Set possible build types for cmake-gui
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
 endif()
 
 ####################### Building mp4v2
@@ -31,20 +31,20 @@ ExternalProject_Add(mp4v2_external
     GIT_TAG ${MP4V2_TAG}
     PREFIX "${CMAKE_BINARY_DIR}/mp4v2"
     INSTALL_DIR "${CMAKE_BINARY_DIR}/mp4v2_install"
-    CMAKE_ARGS 
-        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-        -DCMAKE_BUILD_TYPE=Release
-        -DBUILD_SHARED=OFF
-        -DBUILD_UTILS=OFF
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-        -DCMAKE_CXX_FLAGS=-fPIC
+    CMAKE_ARGS
+    -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+    -DCMAKE_BUILD_TYPE=Release
+    -DBUILD_SHARED=OFF
+    -DBUILD_UTILS=OFF
+    -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+    -DCMAKE_CXX_FLAGS=-fPIC
     BUILD_ALWAYS OFF
     UPDATE_COMMAND ""
 )
 
 ExternalProject_Get_Property(mp4v2_external install_dir)
 set(MP4V2_INCLUDE_DIR "${install_dir}/include")
-set(MP4V2_LIBRARY "${install_dir}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}mp4v2${CMAKE_STATIC_LIBRARY_SUFFIX}")  # или .lib для Windows
+set(MP4V2_LIBRARY "${install_dir}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}mp4v2${CMAKE_STATIC_LIBRARY_SUFFIX}") # или .lib для Windows
 
 if(NOT EXISTS "${MP4V2_INCLUDE_DIR}")
     # message(WARNING "MP4V2 include directory does not exist, creating: ${MP4V2_INCLUDE_DIR}")
@@ -70,14 +70,14 @@ if(WIN32)
         find_package(pybind11 REQUIRED)
     else()
         message(STATUS "pybind11_DIR not set or invalid, trying to find pybind11 automatically...")
-        
+
         execute_process(
             COMMAND ${Python_EXECUTABLE} -c "try:\n    import pybind11\n    import os\n    print(os.path.dirname(pybind11.__file__))\nexcept:\n    exit(1)"
             OUTPUT_VARIABLE PYTHON_PYBIND11_PATH
             OUTPUT_STRIP_TRAILING_WHITESPACE
             RESULT_VARIABLE pybind11_find_result
         )
-        
+
         if(pybind11_find_result EQUAL 0)
             set(PYBIND11_CMAKE_PATH "${PYTHON_PYBIND11_PATH}/share/cmake/pybind11")
             if(EXISTS "${PYBIND11_CMAKE_PATH}")
@@ -92,7 +92,7 @@ if(WIN32)
                     set(pybind11_DIR "${PYTHON_PYBIND11_PATH}" CACHE PATH "Path to pybind11" FORCE)
                 endif()
             endif()
-            
+
             find_package(pybind11 REQUIRED)
         endif()
     endif()
@@ -103,11 +103,16 @@ else()
 endif()
 
 # make python module
-pybind11_add_module(${MODULE_NAME} 
+pybind11_add_module(${MODULE_NAME}
     src/main.cpp
     src/mp4file.cpp
     src/raw.cpp
     src/mp4_file_handle_wrapper.cpp
+)
+
+# Set output directory for the library
+set_target_properties(${MODULE_NAME} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${MODULE_NAME}
 )
 
 # include directories setup
@@ -139,19 +144,22 @@ configure_file(
 )
 
 # stub-files generation
+# stub-files generation
 find_program(PYBIND11_STUBGEN pybind11-stubgen)
 if(PYBIND11_STUBGEN)
-    # Create a custom target for stub generation that runs after the module is built
     add_custom_target(generate_stubs ALL
-        COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}:$ENV{PYTHONPATH} ${PYBIND11_STUBGEN} ${MODULE_NAME} -o ${CMAKE_CURRENT_BINARY_DIR}
+        COMMAND ${CMAKE_COMMAND} -E env
+        PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/pymp4v2:$ENV{PYTHONPATH}
+        ${PYBIND11_STUBGEN} ${MODULE_NAME}
+        -o ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generating Python stub files"
         DEPENDS ${MODULE_NAME}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     )
-    
-    # stub-files installation
+
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${MODULE_NAME}-stubs/${MODULE_NAME}.pyi
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages)
+        DESTINATION lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/pymp4v2
+    )
 else()
     message(WARNING "pybind11-stubgen not found")
 endif()
@@ -160,3 +168,9 @@ endif()
 install(TARGETS ${MODULE_NAME}
     LIBRARY DESTINATION lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages
 )
+
+# Make sure cleanup runs after generate_stubs
+# add_custom_command(TARGET generate_stubs
+#     COMMAND ${CMAKE_COMMAND} -DCMAKE_BINARY_DIR=${CMAKE_BINARY_DIR} -P ${CMAKE_SOURCE_DIR}/cmake/PostBuildCleanup.cmake
+#     COMMENT "Running post-build cleanup script"
+# )

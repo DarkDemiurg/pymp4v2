@@ -6,7 +6,7 @@ requires = [
     "cmake>=3.14",
     "ninja",
     "pybind11>=2.6.0",
-    "pybind11-stubgen>=2.5.5"
+    "pybind11-stubgen>=2.5.5",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -17,21 +17,24 @@ description = "Python bindings for MP4v2 library"
 readme = "README.md"
 requires-python = ">=3.9"
 keywords = ["mp4", "video", "multimedia", "bindings"]
-authors = [
-  {name = "Dmitriy Efimov", email = "daefimov@gmail.com"}
-]
+authors = [{ name = "Dmitriy Efimov", email = "daefimov@gmail.com" }]
 classifiers = [
     "Private :: Do Not Upload",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
-    "Operating System :: POSIX :: Linux",    
+    "Operating System :: POSIX :: Linux",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Programming Language :: C++"
+    "Programming Language :: C++",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = []
 
@@ -43,15 +46,13 @@ Issues = "https://github.com/DarkDemiurg/pymp4v2/issues"
 Changelog = "https://github.com/DarkDemiurg/pymp4v2/blob/master/CHANGELOG.md"
 
 [tool.scikit-build]
-cmake-args = [
-    "-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.9",
-]
+cmake-args = ["-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.9"]
 
 [tool.setuptools]
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 platforms = ["Linux", "Windows"]
 include-package-data = true
-zip-safe = false  # This just means it's not safe to zip up the bdist
+zip-safe = false                 # This just means it's not safe to zip up the bdist
 
 # Non-code data that should be included in the package source code
 # https://setuptools.pypa.io/en/latest/userguide/datafiles.html

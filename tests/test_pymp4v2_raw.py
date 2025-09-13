@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, './build')
+sys.path.insert(0, '../build/pymp4v2')
 
 import pymp4v2
 
