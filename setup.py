@@ -148,7 +148,11 @@ class MP4V2Builder(build_ext):
 
         # Находим собранную библиотеку
         build_lib = self.build_lib or output_dir
-        lib_pattern = os.path.join(build_lib, f"*{PROJECT_NAME}*.so")
+        if sys.platform == "win32":
+            lib_pattern = os.path.join(build_lib, f"*{PROJECT_NAME}*.pyd")
+        else:
+            lib_pattern = os.path.join(build_lib, f"*{PROJECT_NAME}*.so")
+
         so_files = glob.glob(lib_pattern)
 
         if so_files:
