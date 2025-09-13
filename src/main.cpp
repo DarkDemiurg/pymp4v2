@@ -4,47 +4,9 @@
 
 namespace py = pybind11;
 
-void bind_mp4_log_level(py::module &m)
-{
-    py::enum_<MP4LogLevel>(m, "MP4LogLevel")
-        .value("MP4_LOG_NONE", MP4_LOG_NONE)
-        .value("MP4_LOG_ERROR", MP4_LOG_ERROR)
-        .value("MP4_LOG_WARNING", MP4_LOG_WARNING)
-        .value("MP4_LOG_INFO", MP4_LOG_INFO)
-        .value("MP4_LOG_VERBOSE1", MP4_LOG_VERBOSE1)
-        .value("MP4_LOG_VERBOSE2", MP4_LOG_VERBOSE2)
-        .value("MP4_LOG_VERBOSE3", MP4_LOG_VERBOSE3)
-        .value("MP4_LOG_VERBOSE4", MP4_LOG_VERBOSE4)
-        .export_values();
-}
-
 PYBIND11_MODULE(pymp4v2, m)
 {
     m.doc() = "Python binding for MP4v2 library";
-
-    py::class_<raw::MP4FileHandleWrapper>(m, "MP4FileHandle")
-        .def(py::init<>())
-        .def("is_valid", &raw::MP4FileHandleWrapper::is_valid)
-        .def("close", &raw::MP4FileHandleWrapper::close, py::arg("flags") = 0)
-        .def("__enter__", [](raw::MP4FileHandleWrapper &self) -> raw::MP4FileHandleWrapper &
-             { return self; })
-        .def("__exit__", [](raw::MP4FileHandleWrapper &self, py::object exc_type, py::object exc_val, py::object exc_tb)
-             {
-                 self.close(0);
-                 return false; })
-        .def("__repr__", [](const raw::MP4FileHandleWrapper &self)
-             {
-            if (self.is_valid()) {
-                return "<MP4FileHandle (valid)>";
-            } else {
-                return "<MP4FileHandle (closed)>";
-            } });
-
-    m.attr("MP4TrackId") = py::module::import("typing").attr("NewType")("MP4TrackId", py::int_());
-    m.attr("MP4SampleId") = py::module::import("typing").attr("NewType")("MP4SampleId", py::int_());
-    m.attr("MP4Timestamp") = py::module::import("typing").attr("NewType")("MP4Timestamp", py::int_());
-    m.attr("MP4Duration") = py::module::import("typing").attr("NewType")("MP4Duration", py::int_());
-    m.attr("MP4EditId") = py::module::import("typing").attr("NewType")("MP4EditId", py::int_());
 
     // Export class MP4File
     py::class_<MP4File>(m, "MP4File")
@@ -63,17 +25,41 @@ PYBIND11_MODULE(pymp4v2, m)
     // .def("set_metadata_item", &MP4File::set_metadata_item)
     // .def("clear_all_metadata", &MP4File::clear_all_metadata)
 
-    m.attr("MP4_INVALID_TRACK_ID") = py::cast(MP4_INVALID_TRACK_ID);
-    m.attr("MP4_CLOSE_DO_NOT_COMPUTE_BITRATE") = py::int_(MP4_CLOSE_DO_NOT_COMPUTE_BITRATE); // for MP4Close flags
-    m.attr("MP4_CREATE_64BIT_TIME") = py::int_(MP4_CREATE_64BIT_TIME);                       // for MP4Create, MP4CreateEx, MP4CreateCallbacks, MP4CreateCallbacksEx flags
-
     // Создание подмодуля для raw функций
-    auto raw_module = m.def_submodule("raw", "Raw MP4v2 functions");
-    // raw_module.def("get_track_count", &raw::get_track_count, "Get number of tracks in MP4 file");
-    // raw_module.def("get_track_type", &raw::get_track_type, py::arg("handle"), py::arg("track_id"), "Get type of specific track");
+    auto m_raw = m.def_submodule("raw", "Raw MP4v2 functions");
+    // m_raw.def("get_track_count", &raw::get_track_count, "Get number of tracks in MP4 file");
+    // m_raw.def("get_track_type", &raw::get_track_type, py::arg("handle"), py::arg("track_id"), "Get type of specific track");
 
-    raw_module.def("MP4Read", &raw::MP4Read_wrapper, py::arg("fileName"), py::return_value_policy::move,
-                   R"doc(
+    m_raw.attr("MP4_INVALID_TRACK_ID") = py::cast(MP4_INVALID_TRACK_ID);
+    m_raw.attr("MP4_CLOSE_DO_NOT_COMPUTE_BITRATE") = py::int_(MP4_CLOSE_DO_NOT_COMPUTE_BITRATE); // for MP4Close flags
+    m_raw.attr("MP4_CREATE_64BIT_TIME") = py::int_(MP4_CREATE_64BIT_TIME);                       // for MP4Create, MP4CreateEx, MP4CreateCallbacks, MP4CreateCallbacksEx flags
+
+    py::class_<raw::MP4FileHandleWrapper>(m_raw, "MP4FileHandle")
+        .def(py::init<>())
+        .def("is_valid", &raw::MP4FileHandleWrapper::is_valid)
+        .def("close", &raw::MP4FileHandleWrapper::close, py::arg("flags") = 0)
+        .def("__enter__", [](raw::MP4FileHandleWrapper &self) -> raw::MP4FileHandleWrapper &
+             { return self; })
+        .def("__exit__", [](raw::MP4FileHandleWrapper &self, py::object exc_type, py::object exc_val, py::object exc_tb)
+             {
+                 self.close(0);
+                 return false; })
+        .def("__repr__", [](const raw::MP4FileHandleWrapper &self)
+             {
+            if (self.is_valid()) {
+                return "<MP4FileHandle (valid)>";
+            } else {
+                return "<MP4FileHandle (closed)>";
+            } });
+
+    m_raw.attr("MP4TrackId") = py::module::import("typing").attr("NewType")("MP4TrackId", py::int_());
+    m_raw.attr("MP4SampleId") = py::module::import("typing").attr("NewType")("MP4SampleId", py::int_());
+    m_raw.attr("MP4Timestamp") = py::module::import("typing").attr("NewType")("MP4Timestamp", py::int_());
+    m_raw.attr("MP4Duration") = py::module::import("typing").attr("NewType")("MP4Duration", py::int_());
+    m_raw.attr("MP4EditId") = py::module::import("typing").attr("NewType")("MP4EditId", py::int_());
+
+    m_raw.def("MP4Read", &raw::MP4Read_wrapper, py::arg("fileName"), py::return_value_policy::move,
+              R"doc(
     Read an existing mp4 file.
 
     MP4Read is the first call that should be used when you want to just read an existing mp4 file. 
@@ -93,8 +79,8 @@ PYBIND11_MODULE(pymp4v2, m)
         RuntimeError: On any error.
 )doc");
 
-    raw_module.def("MP4Create", &raw::MP4Create_wrapper, py::arg("fileName"), py::arg("flags") = 0, py::return_value_policy::move,
-                   R"doc(
+    m_raw.def("MP4Create", &raw::MP4Create_wrapper, py::arg("fileName"), py::arg("flags") = 0, py::return_value_policy::move,
+              R"doc(
     Create a new mp4 file.
 
     MP4Create is the first call that should be used when you want to create a new, empty mp4 file. 
@@ -117,8 +103,8 @@ PYBIND11_MODULE(pymp4v2, m)
         RuntimeError: On any error.        
 )doc");
 
-    raw_module.def("MP4Modify", &raw::MP4Modify_wrapper, py::arg("fileName"), py::arg("flags") = 0, py::return_value_policy::move,
-                   R"doc(
+    m_raw.def("MP4Modify", &raw::MP4Modify_wrapper, py::arg("fileName"), py::arg("flags") = 0, py::return_value_policy::move,
+              R"doc(
     Modify an existing mp4 file.
 
     MP4Modify is the first call that should be used when you want to modify an existing mp4 file. 
@@ -139,8 +125,8 @@ PYBIND11_MODULE(pymp4v2, m)
         RuntimeError: On any error.        
 )doc");
 
-    raw_module.def("MP4Close", &raw::MP4Close_wrapper, py::arg("hFile"), py::arg("flags") = 0,
-                   R"doc(
+    m_raw.def("MP4Close", &raw::MP4Close_wrapper, py::arg("hFile"), py::arg("flags") = 0,
+              R"doc(
     Close an mp4 file.
 
     MP4Close closes a previously opened mp4 file. If the file was opened writable with MP4Create() or MP4Modify(), 
@@ -153,11 +139,11 @@ PYBIND11_MODULE(pymp4v2, m)
                                     `pymp4v2.MP4_CLOSE_DO_NOT_COMPUTE_BITRATE`
 )doc");
 
-    raw_module.def("MP4Dump", &raw::MP4Dump_wrapper, py::arg("hFile"), py::arg("dumpImplicits") = false, "Dump mp4 file contents as ASCII either to stdout or the log callback (see MP4SetLogCallback()).");
-    raw_module.def("MP4GetFilename", &raw::MP4GetFilename_wrapper, py::arg("hFile"), "Accessor for the filename associated with a file handle.");
+    m_raw.def("MP4Dump", &raw::MP4Dump_wrapper, py::arg("hFile"), py::arg("dumpImplicits") = false, "Dump mp4 file contents as ASCII either to stdout or the log callback (see MP4SetLogCallback()).");
+    m_raw.def("MP4GetFilename", &raw::MP4GetFilename_wrapper, py::arg("hFile"), "Accessor for the filename associated with a file handle.");
 
-    raw_module.def("MP4Info", &raw::MP4Info_wrapper, py::arg("hFile"), py::arg("trackId") = MP4_INVALID_TRACK_ID,
-                   R"doc(
+    m_raw.def("MP4Info", &raw::MP4Info_wrapper, py::arg("hFile"), py::arg("trackId") = MP4_INVALID_TRACK_ID,
+              R"doc(
     Return a textual summary of an mp4 file.
 
     MP4FileInfo provides a string that contains a textual summary of the contents of an mp4 file. 
@@ -177,7 +163,16 @@ PYBIND11_MODULE(pymp4v2, m)
         On success a string containing summary information. On failure, None.
 )doc");
 
-    bind_mp4_log_level(m);
+    py::enum_<MP4LogLevel>(m_raw, "MP4LogLevel")
+        .value("MP4_LOG_NONE", MP4_LOG_NONE)
+        .value("MP4_LOG_ERROR", MP4_LOG_ERROR)
+        .value("MP4_LOG_WARNING", MP4_LOG_WARNING)
+        .value("MP4_LOG_INFO", MP4_LOG_INFO)
+        .value("MP4_LOG_VERBOSE1", MP4_LOG_VERBOSE1)
+        .value("MP4_LOG_VERBOSE2", MP4_LOG_VERBOSE2)
+        .value("MP4_LOG_VERBOSE3", MP4_LOG_VERBOSE3)
+        .value("MP4_LOG_VERBOSE4", MP4_LOG_VERBOSE4)
+        .export_values();
 
-    raw_module.def("MP4LogSetLevel", &MP4LogSetLevel, py::arg("verbosity"), "Set the maximum log level.");
+    m_raw.def("MP4LogSetLevel", &MP4LogSetLevel, py::arg("verbosity"), "Set the maximum log level.");
 }

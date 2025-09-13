@@ -38,6 +38,9 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+dev = ["pytest", "flake8", "black", "mypy", "ruff"]
+
 [project.urls]
 Homepage = "https://github.com/DarkDemiurg/pymp4v2"
 Documentation = "https://github.com/DarkDemiurg/pymp4v2"
