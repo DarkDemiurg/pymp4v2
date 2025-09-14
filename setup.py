@@ -24,7 +24,13 @@ output_dir = "build"
 if sys.platform == "win32":
     # For Windows
     extra_compile_args.extend(
-        ["/std:c++17", "/O2", "/DNDEBUG", "/GL", "/DMP4V2_USE_STATIC_LIB=1", "/DCMAKE_POSITION_INDEPENDENT_CODE=ON"
+        [
+            "/std:c++17",
+            "/O2",
+            "/DNDEBUG",
+            "/GL",
+            "/DMP4V2_USE_STATIC_LIB=1",
+            "/DCMAKE_POSITION_INDEPENDENT_CODE=ON",
         ]
     )
     extra_link_args.extend(["/LTCG", "/OPT:REF", "/OPT:ICF"])
@@ -33,6 +39,7 @@ else:
     extra_compile_args.extend(
         [
             "-std=c++17",
+            "-fPIC",
             "-O3",
             "-DNDEBUG",
             "-flto",
@@ -72,20 +79,17 @@ class MP4V2Builder(build_ext):
             "cmake",
             "..",
             "-DCMAKE_INSTALL_PREFIX=" + temp_dir,
-            "-DCMAKE_BUILD_TYPE=Release",
             "-DBUILD_SHARED=OFF",
             "-DBUILD_UTILS=OFF",
+            "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+            "-DCMAKE_CXX_STANDARD=17",
+            "-DCMAKE_CXX_STANDARD_REQUIRED=ON",
+            "-DCMAKE_CXX_EXTENSIONS=OFF",
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
         ]
 
-        # Для Windows добавляем дополнительные флаги
-        if sys.platform == "win32":
-            cmake_args.extend(["-DCMAKE_CXX_FLAGS=/std:c++17", "-DCMAKE_POSITION_INDEPENDENT_CODE=ON"])
-        else:
-            cmake_args.extend(
-                [
-                    "-DCMAKE_CXX_FLAGS=-std=c++17 -fPIC"
-                ]
-            )
+        if sys.platform != "win32":
+            cmake_args.extend(["-DCMAKE_CXX_FLAGS=-fPIC"])
         self._run_command(cmake_args, cwd=build_dir)
 
         # Определяем количество потоков для сборки
