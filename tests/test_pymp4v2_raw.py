@@ -16,8 +16,6 @@ TEST_MP4_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample
 @pytest.fixture
 def test_mp4_file():
     """Фикстура для проверки наличия тестового файла."""
-    if not os.path.exists(TEST_MP4_FILE):
-        pytest.skip(f"Test MP4 file not found: {TEST_MP4_FILE}")
     return TEST_MP4_FILE
 
 
@@ -227,7 +225,3 @@ def test_double_close(test_mp4_file):
     # Второе закрытие (не должно вызывать ошибок)
     raw.MP4Close(handle)
     assert not handle.is_valid()
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
