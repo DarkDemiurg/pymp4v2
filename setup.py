@@ -54,6 +54,9 @@ else:
 class MP4V2Builder(build_ext):
     def run(self):
         temp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), output_dir)
+
+        shutil.rmtree(temp_dir, ignore_errors=True)
+
         os.makedirs(temp_dir, exist_ok=True)
         mp4v2_dir = os.path.join(temp_dir, "mp4v2")
 

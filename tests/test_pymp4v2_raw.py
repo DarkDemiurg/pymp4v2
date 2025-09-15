@@ -10,7 +10,7 @@ import pytest
 import pymp4v2.raw as raw
 
 # Путь к тестовому MP4 файлу (замените на реальный путь)
-TEST_MP4_FILE = "sample.mp4"
+TEST_MP4_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample.mp4")
 
 
 @pytest.fixture
@@ -31,20 +31,22 @@ def temp_mp4_file():
     if os.path.exists(tmp_path):
         os.unlink(tmp_path)
 
+
 @contextmanager
 def suppress_output():
     """Менеджер контекста для подавления вывода на консоль."""
     original_stdout = sys.stdout
     original_stderr = sys.stderr
-    
+
     sys.stdout = io.StringIO()
     sys.stderr = io.StringIO()
-    
+
     try:
         yield
     finally:
         sys.stdout = original_stdout
         sys.stderr = original_stderr
+
 
 def test_mp4read_and_mp4close(test_mp4_file):
     """Тест открытия и закрытия MP4 файла."""
@@ -142,17 +144,17 @@ def test_mp4dump(test_mp4_file):
     """Тест дампа MP4 файла с подавлением вывода."""
     with suppress_output():
         handle = raw.MP4Read(test_mp4_file)
-        
+
         # Получение дампа в виде строки
         dump_output = raw.MP4Dump(handle)
-        
+
         # Проверяем, что вывод не пустой
         assert dump_output != ""
-        
+
         # Или с параметром dumpImplicits
         dump_output_with_implicits = raw.MP4Dump(handle, True)
         assert dump_output_with_implicits != ""
-        
+
         raw.MP4Close(handle)
 
 
