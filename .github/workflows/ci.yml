@@ -36,3 +36,9 @@ jobs:
 
     - name: Run Tox
       run: tox -e py-${{ matrix.python-version }}
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: DarkDemiurg/pymp4v2
