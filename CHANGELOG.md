@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.11] - 2025-09-16
+### Changed
+- Fix tox envs.
+
 ## [0.1.10] - 2025-09-16
 ### Changed
 - Fix deploy gh-pages.

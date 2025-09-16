@@ -1,9 +1,9 @@
 # tests/test_mp4v2.py
-from contextlib import contextmanager
 import io
 import os
 import sys
 import tempfile
+from contextlib import contextmanager
 
 import pytest
 
