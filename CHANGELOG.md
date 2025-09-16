@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.8] - 2025-09-16
+### Changed
+- CHANGELOG.mg.
+
+## [0.1.7] - 2025-09-16
+### Added
+- GitHub CI action for docs.
+
+## [0.1.6] - 2025-09-16
+### Added
+- mkdocs support.
+
 ## [0.1.5] - 2025-09-16
 ### Added
 - Initial docs.
