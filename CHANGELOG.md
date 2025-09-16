@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.4] - 2025-09-16
+### Added
+- CONTRIBUTING.md.
+
 ## [0.1.3] - 2025-09-16
 ### Added
 - Comments for raw functions.
