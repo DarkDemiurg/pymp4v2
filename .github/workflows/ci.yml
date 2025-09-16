@@ -42,3 +42,6 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         slug: DarkDemiurg/pymp4v2
+    
+    - name: Upload docs
+      run: mkdocs gh-deploy --force
