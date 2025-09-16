@@ -4,7 +4,7 @@
 [![Python](https://img.shields.io/badge/python-3.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13-blue.svg)](https://www.python.org/)
 [![Platforms](https://img.shields.io/badge/platform-windows%20|%20linux-lightgrey.svg)](https://github.com/DarkDemiurg/pymp4v2)
 [![License](https://img.shields.io/github/license/DarkDemiurg/pymp4v2.svg)](https://github.com/DarkDemiurg/pymp4v2/blob/master/LICENSE)
-[![Release](https://img.shields.io/github/v/release/DarkDemiurg/pymp4v2.svg)](https://github.com/DarkDemiurg/pymp4v2/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/DarkDemiurg/pymp4v2)](https://github.com/DarkDemiurg/pymp4v2/releases)
 [![Dependencies](https://img.shields.io/librariesio/github/DarkDemiurg/pymp4v2)](https://libraries.io/github/DarkDemiurg/pymp4v2)
 
 # pymp4v2 - Python Bindings for MP4v2 Library
