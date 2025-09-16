@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 set(PROJECT_NAME pymp4v2)
-set(PROJECT_VERSION 0.1.4)
+set(PROJECT_VERSION 0.1.5)
 
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
