@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.3] - 2025-09-16
+### Added
+- Comments for raw functions.
+
 ## [0.1.2] - 2025-09-16
 ### Changed
 - Fix msvc-dev-cmd arg for CI.

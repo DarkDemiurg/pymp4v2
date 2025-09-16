@@ -139,8 +139,37 @@ PYBIND11_MODULE(pymp4v2, m)
                                     `pymp4v2.MP4_CLOSE_DO_NOT_COMPUTE_BITRATE`
 )doc");
 
-    m_raw.def("MP4Dump", &raw::MP4Dump_wrapper, py::arg("hFile"), py::arg("dumpImplicits") = false, "Dump mp4 file contents as ASCII either to stdout or the log callback (see MP4SetLogCallback()).");
-    m_raw.def("MP4GetFilename", &raw::MP4GetFilename_wrapper, py::arg("hFile"), "Accessor for the filename associated with a file handle.");
+    m_raw.def("MP4Dump", &raw::MP4Dump_wrapper, py::arg("hFile"), py::arg("dumpImplicits") = false,
+              R"doc(
+    Dump mp4 file contents as ASCII either to stdout or the log callback (see `MP4SetLogCallback()`)
+
+    Dump is an invaluable debugging tool in that in can reveal all the details of the mp4 control structures. 
+    However, the output will not make much sense until you familiarize yourself with the mp4 specification 
+    (or the Quicktime File Format specification).
+
+    Note that `MP4Dump()` will not print the individual values of control tables, such as the size of each sample, 
+    unless the current log level is at least MP4_LOG_VERBOSE2. See MP4LogSetLevel() for how to set this.
+
+    Args:
+        hFile (MP4FileHandle):  handle of file to dump.
+        dumpImplicits (bool):   prints properties which would not actually be written to the mp4 file, 
+                                but still exist in mp4 control structures. 
+                                I.e. they are implicit given the current values of other controlling properties.
+        
+    Returns:
+        True on success, False on failure.
+)doc");
+
+    m_raw.def("MP4GetFilename", &raw::MP4GetFilename_wrapper, py::arg("hFile"),
+              R"doc(
+    Accessor for the filename associated with a file handle.
+
+    Args:
+        hFile (MP4FileHandle): a file handle.
+        
+    Returns:
+        filename associated with hFile.
+)doc");
 
     m_raw.def("MP4Info", &raw::MP4Info_wrapper, py::arg("hFile"), py::arg("trackId") = MP4_INVALID_TRACK_ID,
               R"doc(
@@ -174,5 +203,16 @@ PYBIND11_MODULE(pymp4v2, m)
         .value("MP4_LOG_VERBOSE4", MP4_LOG_VERBOSE4)
         .export_values();
 
-    m_raw.def("MP4LogSetLevel", &MP4LogSetLevel, py::arg("verbosity"), "Set the maximum log level.");
+    m_raw.def("MP4LogSetLevel", &MP4LogSetLevel, py::arg("verbosity"),
+              R"doc(
+    Set the maximum log level.
+
+    MP4LogSetLevel sets the maximum level of diagnostic information passed to the current log handler.
+
+    Args:
+        verbosity (MP4LogLevel): specifies the log level to set.
+        
+    Returns:
+        None.
+)doc");
 }
