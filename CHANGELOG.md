@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.5] - 2025-09-16
+### Added
+- Initial docs.
+
 ## [0.1.4] - 2025-09-16
 ### Added
 - CONTRIBUTING.md.
