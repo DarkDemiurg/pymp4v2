@@ -1,12 +1,16 @@
 # Changelog
 
+## [0.1.10] - 2025-09-16
+### Changed
+- Fix deploy gh-pages.
+
 ## [0.1.9] - 2025-09-16
 ### Changed
 - Deploy gh-pages.
 
 ## [0.1.8] - 2025-09-16
 ### Changed
-- CHANGELOG.mg.
+- CHANGELOG.md.
 
 ## [0.1.7] - 2025-09-16
 ### Added
