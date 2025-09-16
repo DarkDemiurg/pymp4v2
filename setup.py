@@ -13,7 +13,7 @@ from setuptools.command.build_ext import build_ext
 
 PROJECT_NAME = "pymp4v2"
 PROJECT_AUTHOR = "Dmitriy Efimov <daefimov@gmail.com>"
-PROJECT_VERSION = "0.1.9"
+PROJECT_VERSION = "0.1.10"
 PROJECT_DESCRIPTION = "Python bindings for MP4v2 library"
 
 extra_compile_args = []
