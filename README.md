@@ -222,4 +222,4 @@ If you encounter any issues or have questions, please file an issue on the GitHu
 
 ## Changelog
 
-See the CHANGELOG.md file for a history of changes to the project.
+See the [CHANGELOG.md](https://github.com/DarkDemiurg/pymp4v2/blob/master/CHANGELOG.md) file for a history of changes to the project.
