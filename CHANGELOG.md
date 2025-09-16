@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.2] - 2025-09-16
+### Changed
+- Fix msvc-dev-cmd arg for CI.
+
 ## [0.1.1] - 2025-09-16
 ### Removed
 - Pipfile.
