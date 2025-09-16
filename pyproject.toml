@@ -40,6 +40,13 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest", "flake8", "black", "mypy", "ruff", "tox", "bump4version"]
+doc = [
+    "mkdocs",
+    "mkdocs-include-markdown-plugin",
+    "mkdocs-material",
+    "mkdocstrings",
+    "mkdocs-autorefs",
+]
 
 [project.urls]
 Homepage = "https://github.com/DarkDemiurg/pymp4v2"
