@@ -30,22 +30,6 @@ def temp_mp4_file():
         os.unlink(tmp_path)
 
 
-@contextmanager
-def suppress_output():
-    """Менеджер контекста для подавления вывода на консоль."""
-    original_stdout = sys.stdout
-    original_stderr = sys.stderr
-
-    sys.stdout = io.StringIO()
-    sys.stderr = io.StringIO()
-
-    try:
-        yield
-    finally:
-        sys.stdout = original_stdout
-        sys.stderr = original_stderr
-
-
 def test_mp4read_and_mp4close(test_mp4_file):
     """Тест открытия и закрытия MP4 файла."""
     # Открываем файл
@@ -138,22 +122,23 @@ def test_mp4info_with_track_id(test_mp4_file):
     raw.MP4Close(handle)
 
 
-def test_mp4dump(test_mp4_file):
+def test_mp4dump(test_mp4_file, capfd):
     """Тест дампа MP4 файла с подавлением вывода."""
-    with suppress_output():
-        handle = raw.MP4Read(test_mp4_file)
+    handle = raw.MP4Read(test_mp4_file)
 
-        # Получение дампа в виде строки
-        dump_output = raw.MP4Dump(handle)
+    # Получение дампа в виде строки
+    raw.MP4Dump(handle)
+    dump_output = capfd.readouterr()
 
-        # Проверяем, что вывод не пустой
-        assert dump_output != ""
+    # Проверяем, что вывод не пустой
+    assert dump_output != ""
 
-        # Или с параметром dumpImplicits
-        dump_output_with_implicits = raw.MP4Dump(handle, True)
-        assert dump_output_with_implicits != ""
+    # Или с параметром dumpImplicits
+    raw.MP4Dump(handle, True)
+    dump_output_with_implicits = capfd.readouterr()
+    assert dump_output_with_implicits != ""
 
-        raw.MP4Close(handle)
+    raw.MP4Close(handle)
 
 
 def test_invalid_file_operations():
