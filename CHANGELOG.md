@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.12] - 2025-09-17
+### Added
+- Docker build.
+### Changed
+- Fix mkdocs build.
+
 ## [0.1.11] - 2025-09-16
 ### Changed
 - Fix tox envs.

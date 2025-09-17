@@ -43,7 +43,9 @@ markdown_extensions:
   - toc:
       baselevel: 2
       permalink: true
-      slugify: !!python/name:pymdownx.slugs.uslugify
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - meta
 plugins:
   - include-markdown
@@ -51,14 +53,6 @@ plugins:
       lang: en
 extra:
   social:
-    - icon: fontawesome/brands/twitter
-      # replace with your own tweet link below
-      link: https://github.com/DarkDemiurg/cookiecutter-pypackage
-      name: Tweet
-    - icon: fontawesome/brands/facebook
-      # replace with your own facebook link below
-      link: https://github.com/DarkDemiurg/cookiecutter-pypackage
-      name: Facebook
     - icon: fontawesome/brands/github
       link: https://github.com/DarkDemiurg/pymp4v2
       name: Github
