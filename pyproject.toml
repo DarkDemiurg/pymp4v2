@@ -39,7 +39,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest", "flake8", "black", "mypy", "ruff", "tox", "bump4version"]
+dev = ["pytest", "pytest-cov", "flake8", "black", "mypy", "ruff", "tox", "bump4version"]
 doc = [
     "mkdocs",
     "mkdocs-include-markdown-plugin",
