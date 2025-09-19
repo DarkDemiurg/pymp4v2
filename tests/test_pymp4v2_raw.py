@@ -1,9 +1,7 @@
 # tests/test_mp4v2.py
-import io
 import os
-import sys
+import shutil
 import tempfile
-from contextlib import contextmanager
 
 import pytest
 
@@ -120,6 +118,40 @@ def test_mp4info_with_track_id(test_mp4_file):
 
     # Закрываем файл
     raw.MP4Close(handle)
+
+
+def test_mp4fileinfo(test_mp4_file):
+    """Тест получения информации о MP4 файле."""
+    # Получаем информацию о файле
+    info = raw.MP4FileInfo(test_mp4_file)
+
+    # Проверяем, что информация не пустая
+    assert info is not None
+    assert isinstance(info, str)
+    assert len(info) > 0
+
+
+def test_mp4fileinfo_with_track_id(test_mp4_file):
+    """Тест получения информации о конкретном треке."""
+    # Пробуем получить информацию о несуществующем треке
+    info = raw.MP4FileInfo(test_mp4_file, 9999)
+
+    # Информация должна быть None для несуществующего трека
+    assert info is None
+
+
+def test_mp4optimize(test_mp4_file):
+    """Тест оптимизации MP4 файла"""
+
+    with tempfile.NamedTemporaryFile() as temp_file:
+        temp_path = temp_file.name
+        shutil.copy2(test_mp4_file, temp_path)
+        opt = raw.MP4Optimize(temp_path)
+        assert opt
+
+    with tempfile.NamedTemporaryFile() as fp:
+        opt = raw.MP4Optimize(test_mp4_file, fp.name)
+        assert opt
 
 
 def test_mp4dump(test_mp4_file, capfd):

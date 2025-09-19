@@ -171,7 +171,7 @@ PYBIND11_MODULE(pymp4v2, m)
         filename associated with hFile.
 )doc");
 
-    m_raw.def("MP4Info", &raw::MP4Info_wrapper, py::arg("hFile"), py::arg("trackId") = MP4_INVALID_TRACK_ID,
+    m_raw.def("MP4Info", &raw::MP4Info_wrapper, py::arg("hFile"), py::arg("trackId") = static_cast<MP4TrackId>(MP4_INVALID_TRACK_ID),
               R"doc(
     Return a textual summary of an mp4 file.
 
@@ -190,6 +190,61 @@ PYBIND11_MODULE(pymp4v2, m)
         
     Returns:
         On success a string containing summary information. On failure, None.
+)doc");
+
+    m_raw.def("MP4FileInfo", &raw::MP4FileInfo_wrapper, py::arg("fileName"), py::arg("trackId") = static_cast<MP4TrackId>(MP4_INVALID_TRACK_ID),
+              R"doc(
+    Return a textual summary of an mp4 file.
+
+    MP4FileInfo provides a string that contains a textual summary of the contents of an mp4 file. 
+    This includes the track id's, the track type, and track specific information. 
+    For example, for a video track, media encoding, image size, frame rate, and bitrate are summarized.
+
+    Note that the returned string is allocated by the library, 
+    so it is the caller's responsibility to release the string with `MP4Free()`. 
+    Also note that the returned string contains newlines and tabs which may or may not be desirable.
+
+    The following is an example of the output of `MP4Info()`:
+
+    Args:
+        fileName (string):  pathname to mp4 file to summarize.
+        trackId (MP4TrackId):   specifies track to summarize. If the value is MP4_INVALID_TRACK_ID, 
+                                the summary info is created for all tracks in the file.
+        
+    Returns:
+        On success a string containing summary information. On failure, None.
+)doc");
+
+    m_raw.def("MP4Optimize", &raw::MP4Optimize_wrapper, py::arg("fileName"), py::arg("newFileName") = static_cast<char *>(NULL),
+              R"doc(
+    Optimize the layout of an mp4 file.
+
+    MP4Optimize reads an existing mp4 file and writes a new version of the file with the two important changes:
+
+    First, the mp4 control information is moved to the beginning of the file. 
+    (Frequenty it is at the end of the file due to it being constantly modified as track samples are added to an mp4 file). 
+    This optimization is useful in that in allows the mp4 file to be HTTP streamed.
+    Second, the track samples are interleaved so that the samples for a particular instant 
+    in time are colocated within the file. 
+    This eliminates disk seeks during playback of the file which results in better performance.
+
+    There are also two important side effects of `MP4Optimize()`:
+
+    First, any free blocks within the mp4 file are eliminated.
+
+    Second, as a side effect of the sample interleaving process any media data chunks that are not actually 
+    referenced by the mp4 control structures are deleted. 
+    This is useful if you have called `MP4DeleteTrack()` which only deletes the control information for a track, 
+    and not the actual media data.
+
+    Args:
+        fileName (string):  pathname of (existing) file to be optimized.
+        newFileName (string):   pathname of the new optimized file. 
+                                If `None` a temporary file in the same directory as the fileName will be used 
+                                and fileName will be over-written upon successful completion.
+
+    Returns:
+        True on success, False on failure.
 )doc");
 
     py::enum_<MP4LogLevel>(m_raw, "MP4LogLevel")
@@ -215,4 +270,13 @@ PYBIND11_MODULE(pymp4v2, m)
     Returns:
         None.
 )doc");
+
+    py::enum_<MP4TagArtworkType_e>(m_raw, "MP4TagArtworkType_e")
+        .value("MP4_ART_UNDEFINED", MP4_ART_UNDEFINED)
+        .value("MP4_ART_BMP", MP4_ART_BMP)
+        .value("MP4_ART_GIF", MP4_ART_GIF)
+        .value("MP4_ART_JPEG", MP4_ART_JPEG)
+        .value("MP4_ART_PNG", MP4_ART_PNG)
+        .export_values();
+    
 }

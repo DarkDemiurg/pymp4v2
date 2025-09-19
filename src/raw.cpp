@@ -40,6 +40,21 @@ namespace raw
         return MP4FileHandleWrapper(hFile);
     }
 
+    std::optional<std::string> MP4FileInfo_wrapper(const char *fileName, MP4TrackId trackId)
+    {
+        const char *info = MP4FileInfo(fileName, trackId);
+        if (info == nullptr)
+        {
+            return std::nullopt;
+        }
+        return std::string(info);
+    }
+
+    bool MP4Optimize_wrapper(const char *fileName, const char *newFileName)
+    {
+        return MP4Optimize(fileName, newFileName);
+    }
+
     void MP4Close_wrapper(MP4FileHandleWrapper &hFile, uint32_t flags)
     {
         hFile.close(flags);
@@ -60,8 +75,8 @@ namespace raw
         const char *info = MP4Info(hFile.get(), trackId);
         if (info == nullptr)
         {
-            return std::nullopt; // Возвращаем std::nullopt вместо py::none()
+            return std::nullopt;
         }
-        return std::string(info); // Возвращаем std::string вместо py::str
+        return std::string(info);
     }
 } // namespace raw

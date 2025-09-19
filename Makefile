@@ -1,4 +1,4 @@
-.PHONY: docs format lint clean
+.PHONY: docs format lint clean tests
 test: format lint
 
 docs:
@@ -15,6 +15,9 @@ clean:
 	rm -rf *.egg-info
 	rm -rf .tox dist site
 	rm -rf coverage.xml .coverage
+
+tests:
+	python -m pytest --doctest-modules tests --cov --cov-config=pyproject.toml --cov-report=xml
 
 docker_build:
 	docker build -t pymp4v2-builder .
