@@ -278,5 +278,33 @@ PYBIND11_MODULE(pymp4v2, m)
         .value("MP4_ART_JPEG", MP4_ART_JPEG)
         .value("MP4_ART_PNG", MP4_ART_PNG)
         .export_values();
-    
+
+    struct PyMP4TagArtwork {
+        py::bytes data;
+        uint32_t size;
+        MP4TagArtworkType type;
+    };
+
+    py::class_<MP4TagArtwork>(m_raw, "MP4TagArtwork")
+        .def(py::init<>())
+        .def_readwrite("data", &MP4TagArtwork::data)
+        .def_readwrite("size", &MP4TagArtwork::size)
+        .def_readwrite("type", &MP4TagArtwork::type);
+
+    // typedef struct MP4TagArtwork_s
+    // {
+    //     void*             data; /**< raw picture data */
+    //     uint32_t          size; /**< data size in bytes */
+    //     MP4TagArtworkType type; /**< data type */
+    // } MP4TagArtwork;
+
+    py::class_<MP4TagTrack>(m_raw, "MP4TagTrack")
+        .def(py::init<>())
+        .def_readwrite("index", &MP4TagTrack::index)
+        .def_readwrite("total", &MP4TagTrack::total);
+
+    py::class_<MP4TagDisk>(m_raw, "MP4TagDisk")
+        .def(py::init<>())
+        .def_readwrite("index", &MP4TagDisk::index)
+        .def_readwrite("total", &MP4TagDisk::total);
 }
