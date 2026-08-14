@@ -122,7 +122,18 @@ $ git push --tags
 
 Pushing a `v*` tag runs `.github/workflows/publish.yml`: cibuildwheel
 (manylinux x86_64 and aarch64, Windows AMD64, macOS x86_64 and arm64),
-an sdist, and a GitHub Release with those artifacts.
+an sdist, a GitHub Release with those artifacts, then upload to PyPI
+via Trusted Publishing (OIDC, environment `pypi`).
 
-Nothing is uploaded to PyPI. There is no `publish_pypi` job and no
-Trusted Publishing.
+`workflow_dispatch` can do the same. Pass the release tag (for example
+`v0.1.13`). To attach wheels from an already-successful run instead of
+rebuilding, also set `reuse_run_id` to that Actions run ID.
+
+Before the first PyPI upload, add a pending publisher at
+https://pypi.org/manage/account/publishing/ :
+
+- PyPI project name: `pymp4v2`
+- Owner: `DarkDemiurg`
+- Repository: `pymp4v2`
+- Workflow: `publish.yml`
+- Environment: `pypi`

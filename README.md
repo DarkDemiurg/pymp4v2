@@ -6,6 +6,7 @@
 [![Platforms](https://img.shields.io/badge/platform-windows%20|%20linux%20|%20macos-lightgrey.svg)](https://github.com/DarkDemiurg/pymp4v2)
 [![GitHub License](https://img.shields.io/github/license/DarkDemiurg/pymp4v2)](https://github.com/DarkDemiurg/pymp4v2/blob/master/LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/DarkDemiurg/pymp4v2)](https://github.com/DarkDemiurg/pymp4v2/releases)
+[![PyPI](https://img.shields.io/pypi/v/pymp4v2.svg)](https://pypi.org/project/pymp4v2/)
 [![Dependencies](https://img.shields.io/librariesio/github/DarkDemiurg/pymp4v2)](https://libraries.io/github/DarkDemiurg/pymp4v2)
 
 # pymp4v2 - Python Bindings for [mp4v2](https://github.com/enzo1982/mp4v2)

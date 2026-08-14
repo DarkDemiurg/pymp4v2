@@ -1,6 +1,8 @@
 # Build manylinux / Windows / macOS wheels and an sdist.
-# On tag v*: attach artifacts to a GitHub Release.
-# Not published to PyPI. No Trusted Publishing.
+# On tag v* (or workflow_dispatch with a tag): GitHub Release, then PyPI.
+# PyPI uses Trusted Publishing (OIDC). Configure a pending publisher at
+# https://pypi.org/manage/account/publishing/ before the first upload:
+#   owner DarkDemiurg, repo pymp4v2, workflow publish.yml, environment pypi.
 
 name: Release
 
@@ -8,6 +10,15 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Git tag for the GitHub Release and PyPI (e.g. v0.1.13)"
+        required: true
+        type: string
+      reuse_run_id:
+        description: "Optional Actions run ID whose cibw-* artifacts to reuse (skip rebuild)"
+        required: false
+        type: string
 
 concurrency:
   group: release-${{ github.ref }}
@@ -19,6 +30,7 @@ permissions:
 jobs:
   build_wheels:
     name: Wheels (${{ matrix.os }})
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.reuse_run_id == '' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -44,6 +56,7 @@ jobs:
 
   build_sdist:
     name: Source distribution
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.reuse_run_id == '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -67,13 +80,31 @@ jobs:
   github-release:
     name: GitHub Release
     needs: [build_wheels, build_sdist]
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: |
+      always()
+      && !cancelled()
+      && (needs.build_wheels.result == 'success' || needs.build_wheels.result == 'skipped')
+      && (needs.build_sdist.result == 'success' || needs.build_sdist.result == 'skipped')
+      && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: read
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download artifacts from this run
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.reuse_run_id == '' }}
+        uses: actions/download-artifact@v4
         with:
+          pattern: cibw-*
+          merge-multiple: true
+          path: dist
+
+      - name: Download artifacts from prior run
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.reuse_run_id != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.inputs.reuse_run_id }}
+          github-token: ${{ github.token }}
           pattern: cibw-*
           merge-multiple: true
           path: dist
@@ -81,6 +112,45 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           files: dist/*
           generate_release_notes: true
           fail_on_unmatched_files: true
+
+  publish_pypi:
+    name: Publish to PyPI
+    needs: [github-release]
+    if: |
+      always()
+      && !cancelled()
+      && needs.github-release.result == 'success'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pymp4v2
+    permissions:
+      id-token: write
+      actions: read
+    steps:
+      - name: Download artifacts from this run
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.reuse_run_id == '' }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          merge-multiple: true
+          path: dist
+
+      - name: Download artifacts from prior run
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.reuse_run_id != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.inputs.reuse_run_id }}
+          github-token: ${{ github.token }}
+          pattern: cibw-*
+          merge-multiple: true
+          path: dist
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true

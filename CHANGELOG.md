@@ -15,7 +15,7 @@
 - PEP 561 stubs in the wheel (`py.typed`, `__init__.pyi`, `raw.pyi`); extension is `pymp4v2._pymp4v2`.
 - `NOTICE` and a copy of mp4v2's MPL 1.1 `COPYING` (`licenses/mp4v2/COPYING`); wheels include both.
 - cibuildwheel: manylinux (x86_64, aarch64), Windows AMD64, macOS x86_64 and arm64 (CPython 3.9–3.13).
-- Release workflow on `v*` tags: wheels + sdist + GitHub Release. Not published to PyPI (no Trusted Publishing).
+- Release workflow on `v*` tags: wheels + sdist + GitHub Release, then PyPI via Trusted Publishing. `workflow_dispatch` can reuse artifacts from a prior Actions run.
 - Raw track API: `MP4GetNumberOfTracks`, `MP4FindTrackId`, `MP4GetTrackType`, `MP4DeleteTrack`, `MP4AddAudioTrack`, `MP4AddVideoTrack`.
 - File/track properties: duration, timescale, video width/height, language, track name, `MP4HaveAtom`.
 - Sample I/O: `MP4ReadSample` / `MP4WriteSample` (`bytes`), `MP4GetSampleSize`, `MP4GetTrackNumberOfSamples`, `MP4GetTrackMaxSampleSize`.
@@ -29,6 +29,7 @@
 - `MP4File` honors `mode` (`r` / `w` / `a` / `r+`), includes the filename in errors, uses the RAII handle wrapper, and implements a context manager.
 - `MP4File.save()` persists via close+reopen instead of leaving a closed handle.
 - Tests generate a tiny MP4 fixture instead of depending on gitignored `tests/sample.mp4`; modify tests copy first.
+- Windows CI finds the runner Visual Studio (not only 2022); filename assertions no longer pass Windows paths to `pytest.raises(match=...)`.
 - `MP4TagArtwork` no longer exposes a raw `void*` (data is copied `bytes`).
 ### Changed
 - `raw.MP4TrackId` (and SampleId / Timestamp / Duration / EditId) are `int` aliases, not `typing.NewType`.

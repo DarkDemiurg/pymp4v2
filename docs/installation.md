@@ -1,10 +1,12 @@
 ## Installation
 
-Wheels (manylinux, Windows, macOS) and an sdist are attached to
-[GitHub Releases](https://github.com/DarkDemiurg/pymp4v2/releases) for `v*`
-tags. They are not published to PyPI.
+```bash
+pip install pymp4v2
+```
 
-Download a wheel for your platform from the latest release, then:
+Wheels (manylinux, Windows, macOS) and an sdist are also attached to
+[GitHub Releases](https://github.com/DarkDemiurg/pymp4v2/releases) for `v*`
+tags.
 
 ```bash
 pip install pymp4v2-*.whl
