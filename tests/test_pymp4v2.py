@@ -50,15 +50,17 @@ def test_modify_modes_use_a_copy(test_mp4_file, tmp_path):
 
 
 def test_unknown_mode_includes_filename(test_mp4_file):
-    with pytest.raises(RuntimeError, match=test_mp4_file) as exc:
+    with pytest.raises(RuntimeError) as exc:
         pymp4v2.MP4File(test_mp4_file, "x")
     assert "Unsupported mode" in str(exc.value)
+    assert test_mp4_file in str(exc.value)
 
 
 def test_missing_file_includes_filename(tmp_path):
     missing = str(tmp_path / "does-not-exist.mp4")
-    with pytest.raises(RuntimeError, match=missing):
+    with pytest.raises(RuntimeError) as exc:
         pymp4v2.MP4File(missing, "r")
+    assert missing in str(exc.value)
 
 
 def test_save_read_only_is_noop(test_mp4_file):

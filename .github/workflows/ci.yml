@@ -29,11 +29,10 @@ jobs:
         pip install tox
 
     - name: Setup MSVC (Windows only)
-      if: matrix.os == 'windows-latest'
+      if: runner.os == 'Windows'
       uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: x64
-        vsversion: 2022
 
     - name: Run Tox
       run: tox run -e py
