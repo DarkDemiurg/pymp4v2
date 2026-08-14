@@ -1,0 +1,1132 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://DarkDemiurg.github.io/pymp4v2/api/">
+      
+      
+        <link rel="prev" href="../usage/">
+      
+      
+        <link rel="next" href="../contributing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Modules - pymp4v2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="preference" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="pymp4v2" class="md-header__button md-logo" aria-label="pymp4v2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pymp4v2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Modules
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DarkDemiurg/pymp4v2" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DarkDemiurg/pymp4v2
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="pymp4v2" class="md-nav__button md-logo" aria-label="pymp4v2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    pymp4v2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DarkDemiurg/pymp4v2" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DarkDemiurg/pymp4v2
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2mp4file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.MP4File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2track" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.Track
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2mp4error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.MP4Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.raw
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2mp4file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.MP4File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2track" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.Track
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2mp4error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.MP4Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymp4v2raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pymp4v2.raw
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Modules</h1>
+
+<h3 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h3>
+<p><strong>Alpha.</strong> Only the functions and types below are shipped. This is not a complete
+mp4v2 binding. <code>pymp4v2.__version__</code> is the package version from <code>pyproject.toml</code>.
+Wheels include PEP 561 stubs (<code>pymp4v2/py.typed</code>, <code>__init__.pyi</code>, <code>raw.pyi</code>).</p>
+<h4 id="pymp4v2mp4file"><code>pymp4v2.MP4File</code><a class="headerlink" href="#pymp4v2mp4file" title="Permanent link">&para;</a></h4>
+<p>High-level owner of an <code>MP4FileHandle</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MP4File(filename, mode="r")</code></td>
+<td><code>"r"</code> → <code>MP4Read</code>, <code>"w"</code> → <code>MP4Create</code>, <code>"a"</code> / <code>"r+"</code> → <code>MP4Modify</code>. Raises <code>MP4Error</code> (subclass of <code>RuntimeError</code>, with filename) on unknown mode or open failure.</td>
+</tr>
+<tr>
+<td><code>filename</code></td>
+<td>Path passed to the constructor.</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td>Mode string passed to the constructor.</td>
+</tr>
+<tr>
+<td><code>is_open()</code></td>
+<td>Whether the handle is still valid.</td>
+</tr>
+<tr>
+<td><code>get_info()</code> / <code>info</code></td>
+<td>Textual summary (<code>str</code>). Raises if closed.</td>
+</tr>
+<tr>
+<td><code>get_track_count()</code></td>
+<td>Number of tracks. Raises if closed (does not return <code>-1</code>).</td>
+</tr>
+<tr>
+<td><code>duration</code> / <code>timescale</code></td>
+<td>Movie timeline (timescale units / ticks per second).</td>
+</tr>
+<tr>
+<td><code>tracks</code></td>
+<td>Sequence of <code>Track</code> (indexable, iterable). Sample indices on <code>Track</code> are 0-based.</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td><code>Tags</code> snapshot (iTMF). String properties (<code>name</code>, <code>artist</code>, <code>album</code>, …); <code>artwork</code> is <code>list[bytes]</code>. Dirty tags are stored on <code>Tags</code> context exit and on <code>MP4File.close()</code>.</td>
+</tr>
+<tr>
+<td><code>optimize(new_filename=None)</code></td>
+<td>Close (persist), <code>MP4Optimize</code>, reopen if it was open.</td>
+</tr>
+<tr>
+<td><code>save()</code></td>
+<td>Persist pending writes by close+reopen (<code>MP4Modify</code>). No-op for <code>"r"</code>. Raises <code>MP4Error</code> if closed.</td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td>Close the handle (flags <code>0</code>). Create/modify handles write pending data here; dirty tags are stored first.</td>
+</tr>
+<tr>
+<td><code>__enter__</code> / <code>__exit__</code></td>
+<td>Context manager; <code>__exit__</code> calls <code>close()</code>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pymp4v2track"><code>pymp4v2.Track</code><a class="headerlink" href="#pymp4v2track" title="Permanent link">&para;</a></h4>
+<p>Returned from <code>MP4File.tracks[i]</code>. Indices for samples are <strong>0-based</strong> (raw <code>MP4ReadSample</code> is 1-based).</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code>, <code>type</code>, <code>duration</code>, <code>timescale</code>, <code>sample_count</code></td>
+<td>Track identity and timeline.</td>
+</tr>
+<tr>
+<td><code>language</code>, <code>name</code></td>
+<td><code>str</code> or <code>None</code> if unset.</td>
+</tr>
+<tr>
+<td><code>width</code>, <code>height</code></td>
+<td>Video pixels (0 on non-video).</td>
+</tr>
+<tr>
+<td><code>bitrate</code></td>
+<td>Average bits per second (0 if unknown).</td>
+</tr>
+<tr>
+<td><code>frame_rate</code></td>
+<td>Average frames per second (0 if unknown / non-video).</td>
+</tr>
+<tr>
+<td><code>audio_channels</code></td>
+<td>Channel count, or <code>None</code> if the track is not audio.</td>
+</tr>
+<tr>
+<td><code>read_sample(index)</code> / <code>[index]</code></td>
+<td><code>Sample</code> (<code>data</code> bytes + timing).</td>
+</tr>
+<tr>
+<td><code>__len__</code> / iteration</td>
+<td>Over samples.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pymp4v2tags"><code>pymp4v2.Tags</code><a class="headerlink" href="#pymp4v2tags" title="Permanent link">&para;</a></h4>
+<p>Returned from <code>MP4File.tags</code>. Fetch happens on first access.</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code>, <code>artist</code>, <code>album</code>, <code>album_artist</code>, <code>composer</code>, <code>comments</code>, <code>genre</code>, …</td>
+<td>String properties; <code>None</code> clears. Read-only files raise on set.</td>
+</tr>
+<tr>
+<td><code>tempo</code>, <code>compilation</code>, <code>tv_season</code>, <code>track</code>, <code>disk</code>, …</td>
+<td>Numeric / struct iTMF fields (<code>track</code>/<code>disk</code> are <code>raw.MP4TagTrack</code> / <code>MP4TagDisk</code>).</td>
+</tr>
+<tr>
+<td><code>artwork</code></td>
+<td><code>list[bytes]</code> copies.</td>
+</tr>
+<tr>
+<td><code>add_artwork(data, type=MP4_ART_UNDEFINED)</code></td>
+<td><code>data</code> is <code>bytes</code>.</td>
+</tr>
+<tr>
+<td><code>store()</code> / <code>fetch()</code></td>
+<td>Write / reload the snapshot.</td>
+</tr>
+<tr>
+<td><code>__enter__</code> / <code>__exit__</code></td>
+<td>Stores if dirty on exit.</td>
+</tr>
+</tbody>
+</table>
+<p><code>pymp4v2.Sample</code> is an alias of <code>raw.MP4Sample</code>.</p>
+<h4 id="pymp4v2mp4error"><code>pymp4v2.MP4Error</code><a class="headerlink" href="#pymp4v2mp4error" title="Permanent link">&para;</a></h4>
+<p>Subclass of <code>RuntimeError</code>. Raised when a C call returns <code>false</code> or <code>MP4_INVALID_*</code>,
+or when a closed handle is used. Predicates such as <code>MP4HaveAtom</code> return <code>bool</code>
+instead of raising.</p>
+<h4 id="pymp4v2raw"><code>pymp4v2.raw</code><a class="headerlink" href="#pymp4v2raw" title="Permanent link">&para;</a></h4>
+<p>1:1 wrappers around the bound C API. Handles are <code>MP4FileHandle</code> objects (RAII,
+context manager). Open failures and C errors raise <code>MP4Error</code>. Long calls
+(<code>MP4Read</code> / <code>Create</code> / <code>CreateEx</code> / <code>Modify</code> / <code>Close</code> / <code>Dump</code> / <code>Optimize</code> / <code>Info</code>,
+track/sample/tag I/O) release the GIL. <code>MP4FileHandle.close_flags</code> (default <code>0</code>)
+is used by <code>close()</code> with no args, <code>__exit__</code>, and the destructor; <code>MP4Close(h, flags)</code>
+still takes an explicit C-style flags argument.</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MP4Read(fileName)</code></td>
+<td><code>MP4FileHandle</code></td>
+<td>Read-only open.</td>
+</tr>
+<tr>
+<td><code>MP4Create(fileName, flags=0)</code></td>
+<td><code>MP4FileHandle</code></td>
+<td>Create/truncate. Flags: <code>MP4_CREATE_64BIT_DATA</code>, <code>MP4_CREATE_64BIT_TIME</code>.</td>
+</tr>
+<tr>
+<td><code>MP4CreateEx(fileName, flags=0, add_ftyp=1, add_iods=1, majorBrand=None, minorVersion=0, compatibleBrands=())</code></td>
+<td><code>MP4FileHandle</code></td>
+<td>Create with ftyp brands / iods. <code>None</code> majorBrand keeps mp4v2 defaults (<code>mp42</code> / <code>isom</code>). Count is the sequence length.</td>
+</tr>
+<tr>
+<td><code>MP4Modify(fileName, flags=0)</code></td>
+<td><code>MP4FileHandle</code></td>
+<td>Read/write open. <code>flags</code> currently ignored by mp4v2.</td>
+</tr>
+<tr>
+<td><code>MP4Close(hFile, flags=0)</code></td>
+<td><code>None</code></td>
+<td>Writes pending data for create/modify handles. Flag: <code>MP4_CLOSE_DO_NOT_COMPUTE_BITRATE</code>.</td>
+</tr>
+<tr>
+<td><code>MP4GetFilename(hFile)</code></td>
+<td><code>str</code></td>
+<td>Path associated with the handle.</td>
+</tr>
+<tr>
+<td><code>MP4Info(hFile, trackId=MP4_INVALID_TRACK_ID)</code></td>
+<td><code>str</code> or <code>None</code></td>
+<td>Wrapper copies the C string and frees it.</td>
+</tr>
+<tr>
+<td><code>MP4FileInfo(fileName, trackId=MP4_INVALID_TRACK_ID)</code></td>
+<td><code>str</code> or <code>None</code></td>
+<td>Same as <code>MP4Info</code> without an open handle.</td>
+</tr>
+<tr>
+<td><code>MP4Dump(hFile, dumpImplicits=False)</code></td>
+<td><code>bool</code></td>
+<td>Prints to stdout (or the log callback); does <strong>not</strong> return a dump string. Raises <code>MP4Error</code> on failure.</td>
+</tr>
+<tr>
+<td><code>MP4Optimize(fileName, newFileName=None)</code></td>
+<td><code>bool</code></td>
+<td>Rewrite with interleaved samples / moov at the front. Raises <code>MP4Error</code> on failure.</td>
+</tr>
+<tr>
+<td><code>MP4LogSetLevel(verbosity)</code></td>
+<td><code>None</code></td>
+<td><code>MP4LogLevel</code> enum.</td>
+</tr>
+<tr>
+<td><code>MP4GetNumberOfTracks(hFile, type=None, subType=0)</code></td>
+<td><code>int</code></td>
+<td><code>type</code> is a four-cc such as <code>MP4_VIDEO_TRACK_TYPE</code>.</td>
+</tr>
+<tr>
+<td><code>MP4FindTrackId(hFile, index, type=None, subType=0)</code></td>
+<td><code>int</code></td>
+<td>0-based among matching tracks. Raises if missing.</td>
+</tr>
+<tr>
+<td><code>MP4GetTrackType(hFile, trackId)</code></td>
+<td><code>str</code></td>
+<td>e.g. <code>"vide"</code> / <code>"soun"</code>.</td>
+</tr>
+<tr>
+<td><code>MP4DeleteTrack(hFile, trackId)</code></td>
+<td><code>None</code></td>
+<td>Control info only; call <code>MP4Optimize</code> to drop sample data.</td>
+</tr>
+<tr>
+<td><code>MP4AddAudioTrack(hFile, timeScale, sampleDuration, audioType=MP4_MPEG4_AUDIO_TYPE)</code></td>
+<td><code>int</code></td>
+<td>New audio track id.</td>
+</tr>
+<tr>
+<td><code>MP4AddVideoTrack(hFile, timeScale, sampleDuration, width, height, videoType=MP4_MPEG4_VIDEO_TYPE)</code></td>
+<td><code>int</code></td>
+<td>New video track id.</td>
+</tr>
+<tr>
+<td><code>MP4HaveAtom(hFile, atomName)</code></td>
+<td><code>bool</code></td>
+<td>Predicate; does not raise when the atom is absent.</td>
+</tr>
+<tr>
+<td><code>MP4GetDuration(hFile)</code> / <code>MP4GetTimeScale(hFile)</code></td>
+<td><code>int</code></td>
+<td>Movie duration (timescale units) and ticks/sec.</td>
+</tr>
+<tr>
+<td><code>MP4SetTimeScale(hFile, value)</code></td>
+<td><code>None</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>MP4GetTrackDuration</code> / <code>MP4GetTrackTimeScale</code> / <code>MP4SetTrackTimeScale</code></td>
+<td><code>int</code> / <code>None</code></td>
+<td>Track timeline.</td>
+</tr>
+<tr>
+<td><code>MP4GetTrackVideoWidth</code> / <code>MP4GetTrackVideoHeight</code></td>
+<td><code>int</code></td>
+<td>Pixels.</td>
+</tr>
+<tr>
+<td><code>MP4GetTrackLanguage</code> / <code>MP4SetTrackLanguage</code></td>
+<td><code>str</code> / <code>None</code></td>
+<td>ISO-639-2/T, 3 letters.</td>
+</tr>
+<tr>
+<td><code>MP4GetTrackName</code> / <code>MP4SetTrackName</code></td>
+<td><code>str</code> / <code>None</code></td>
+<td><code>udta.name</code>; getter copies and <code>MP4Free</code>s.</td>
+</tr>
+<tr>
+<td><code>MP4ChangeMovieTimeScale(hFile, value)</code></td>
+<td><code>None</code></td>
+<td>Recalculate <code>moov.mvhd</code> fields for a new movie timescale.</td>
+</tr>
+<tr>
+<td><code>MP4GetIntegerProperty</code> / <code>MP4SetIntegerProperty</code></td>
+<td><code>int</code> / <code>None</code></td>
+<td>Generic atom property, e.g. <code>moov.mvhd.timescale</code>.</td>
+</tr>
+<tr>
+<td><code>MP4GetFloatProperty</code> / <code>MP4SetFloatProperty</code></td>
+<td><code>float</code> / <code>None</code></td>
+<td>e.g. <code>moov.mvhd.rate</code>.</td>
+</tr>
+<tr>
+<td><code>MP4GetStringProperty</code> / <code>MP4SetStringProperty</code></td>
+<td><code>str</code> / <code>None</code></td>
+<td>e.g. <code>ftyp.majorBrand</code>.</td>
+</tr>
+<tr>
+<td><code>MP4GetBytesProperty</code> / <code>MP4SetBytesProperty</code></td>
+<td><code>bytes</code> / <code>None</code></td>
+<td>Getter copies and <code>MP4Free</code>s.</td>
+</tr>
+<tr>
+<td><code>MP4HaveTrackAtom(hFile, trackId, atomName)</code></td>
+<td><code>bool</code></td>
+<td>Predicate; does not raise when the atom is absent.</td>
+</tr>
+<tr>
+<td><code>MP4GetTrackBitRate</code> / <code>MP4GetTrackVideoFrameRate</code> / <code>MP4GetTrackAudioChannels</code></td>
+<td><code>int</code> / <code>float</code> / <code>int</code></td>
+<td>Inspection. Audio channels raise if the track has none.</td>
+</tr>
+<tr>
+<td><code>MP4GetTrackMediaDataName</code> / <code>MP4GetTrackFixedSampleDuration</code></td>
+<td><code>str</code> / <code>int</code></td>
+<td>Sample-entry four-cc; fixed duration or <code>MP4_INVALID_DURATION</code>.</td>
+</tr>
+<tr>
+<td><code>MP4GetTrackESConfiguration</code> / <code>MP4SetTrackESConfiguration</code></td>
+<td><code>bytes</code> / <code>None</code></td>
+<td>Getter copies and <code>MP4Free</code>s.</td>
+</tr>
+<tr>
+<td><code>MP4GetTrackIntegerProperty</code> (and Float/String/Bytes + setters)</td>
+<td>typed / <code>None</code></td>
+<td>Track-scoped generic properties, e.g. <code>tkhd.layer</code>.</td>
+</tr>
+<tr>
+<td><code>MP4WriteSample(hFile, trackId, pBytes, duration=MP4_INVALID_DURATION, renderingOffset=0, isSyncSample=True)</code></td>
+<td><code>None</code></td>
+<td><code>pBytes</code> is <code>bytes</code>. First sample id is 1.</td>
+</tr>
+<tr>
+<td><code>MP4ReadSample(hFile, trackId, sampleId)</code></td>
+<td><code>MP4Sample</code></td>
+<td><code>.data</code> is <code>bytes</code>. Unpacks as <code>(data, startTime, duration, renderingOffset, isSyncSample)</code>.</td>
+</tr>
+<tr>
+<td><code>MP4ReadSampleFromTime(hFile, trackId, when)</code></td>
+<td><code>MP4Sample</code></td>
+<td>Sample containing <code>when</code> (track timescale).</td>
+</tr>
+<tr>
+<td><code>MP4GetSampleIdFromTime(hFile, trackId, when, wantSyncSample=False)</code></td>
+<td><code>int</code></td>
+<td>Raises if none.</td>
+</tr>
+<tr>
+<td><code>MP4GetSampleTime</code> / <code>MP4GetSampleDuration</code> / <code>MP4GetSampleSync</code></td>
+<td><code>int</code> / <code>int</code> / <code>bool</code></td>
+<td>Per-sample timing; raise on <code>MP4_INVALID_*</code> / <code>-1</code>.</td>
+</tr>
+<tr>
+<td><code>MP4CopySample(srcFile, srcTrackId, srcSampleId, dstFile=None, dstTrackId=MP4_INVALID_TRACK_ID, dstSampleDuration=MP4_INVALID_DURATION)</code></td>
+<td><code>None</code></td>
+<td><code>dstFile</code> None copies in the source file.</td>
+</tr>
+<tr>
+<td><code>MP4GetSampleSize</code> / <code>MP4GetTrackNumberOfSamples</code> / <code>MP4GetTrackMaxSampleSize</code></td>
+<td><code>int</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>MP4TagsAlloc()</code></td>
+<td><code>MP4Tags</code></td>
+<td>Also constructible as <code>MP4Tags()</code>. Context manager calls <code>MP4TagsFree</code>.</td>
+</tr>
+<tr>
+<td><code>MP4TagsFetch</code> / <code>MP4TagsStore</code> / <code>MP4TagsFree</code></td>
+<td><code>None</code></td>
+<td>Fetch into / store from the snapshot. <code>MP4TagsHasMetadata</code> reflects the last Fetch.</td>
+</tr>
+<tr>
+<td><code>MP4TagsSetName</code> (and other string setters)</td>
+<td><code>None</code></td>
+<td><code>None</code> removes the tag. Read via <code>tags.name</code>, <code>tags.artist</code>, …</td>
+</tr>
+<tr>
+<td><code>MP4TagsSetCompilation</code> / <code>MP4TagsSetGenreType</code> / <code>MP4TagsSetTVSeason</code> (and other scalar setters)</td>
+<td><code>None</code></td>
+<td>Numeric iTMF fields. <code>None</code> removes. Read via <code>tags.compilation</code>, <code>tags.genreType</code>, …</td>
+</tr>
+<tr>
+<td><code>MP4TagsAddArtwork(tags, data, type=MP4_ART_UNDEFINED)</code></td>
+<td><code>None</code></td>
+<td><code>data</code> is <code>bytes</code>. <code>tags.artwork</code> is a list of copies (<code>data</code> + <code>type</code>).</td>
+</tr>
+<tr>
+<td><code>MP4GetChapters(hFile, chapterType=MP4ChapterTypeQt)</code></td>
+<td><code>MP4ChapterList</code></td>
+<td>Unpacks as <code>(type, chapters)</code>. Copies and <code>MP4Free</code>s the C array. Empty if none.</td>
+</tr>
+<tr>
+<td><code>MP4SetChapters(hFile, chapterList, chapterType=MP4ChapterTypeQt)</code></td>
+<td><code>MP4ChapterType</code></td>
+<td><code>chapterList</code> is a sequence of <code>MP4Chapter</code> (duration in milliseconds). Nero's last chapter duration on read is "until end of movie".</td>
+</tr>
+<tr>
+<td><code>MP4AddChapterTextTrack</code> / <code>MP4AddChapter</code> / <code>MP4AddNeroChapter</code></td>
+<td>id / <code>None</code></td>
+<td>Qt text track + chapters; Nero start time is 100 ns units.</td>
+</tr>
+<tr>
+<td><code>MP4ConvertChapters</code> / <code>MP4DeleteChapters</code></td>
+<td><code>MP4ChapterType</code></td>
+<td><code>MP4ChapterTypeNone</code> if there was nothing to convert/delete.</td>
+</tr>
+</tbody>
+</table>
+<p>Also exported on <code>raw</code>: <code>MP4_INVALID_TRACK_ID</code>, <code>MP4_INVALID_SAMPLE_ID</code>,
+<code>MP4_INVALID_DURATION</code>, <code>MP4_INVALID_TIMESTAMP</code>, <code>MP4_INVALID_EDIT_ID</code>,
+<code>MP4_CREATE_64BIT_DATA</code>, <code>MP4_CREATE_64BIT_TIME</code>, track type strings
+(<code>MP4_VIDEO_TRACK_TYPE</code>, …), <code>MP4FileHandle</code> (<code>close_flags</code>), <code>MP4LogLevel</code>,
+<code>MP4Sample</code>, <code>MP4Tags</code>, <code>MP4TagArtwork</code> (bytes + type, not a raw <code>void*</code>),
+<code>MP4TagTrack</code>, <code>MP4TagDisk</code>, <code>MP4TagArtworkType_e</code>, <code>MP4Chapter</code>, <code>MP4ChapterType</code>,
+<code>MP4V2_CHAPTER_TITLE_MAX</code>.</p>
+<p><code>MP4TrackId</code>, <code>MP4SampleId</code>, <code>MP4Timestamp</code>, <code>MP4Duration</code>, and <code>MP4EditId</code> are
+<code>int</code> aliases (not <code>typing.NewType</code>).</p>
+<p><strong>Not bound (Alpha, out of scope):</strong> iTMF generic atoms, MPEG-4 profile-level
+setters, hint/streaming, custom I/O callbacks (<code>MP4*Callbacks</code>), deprecated
+<code>MP4ReadProvider</code>, encrypted-sample helpers. The high-level path is inspect /
+tag / sample I/O / chapters / optimize.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/DarkDemiurg/pymp4v2" target="_blank" rel="noopener" title="Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:daefimov@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.indexes", "navigation.instant", "navigation.tabs.sticky"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
