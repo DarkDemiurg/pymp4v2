@@ -10,8 +10,9 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
     steps:
@@ -35,7 +36,7 @@ jobs:
         vsversion: 2022
 
     - name: Run Tox
-      run: tox -e py-${{ matrix.python-version }}
+      run: tox run -e py
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5

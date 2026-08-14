@@ -6,9 +6,8 @@ namespace raw
 
     MP4FileHandleWrapper::MP4FileHandleWrapper(MP4FileHandle h) : handle(h) {}
 
-    // Реализация перемещения
     MP4FileHandleWrapper::MP4FileHandleWrapper(MP4FileHandleWrapper &&other) noexcept
-        : handle(other.handle)
+        : handle(other.handle), close_flags_(other.close_flags_)
     {
         other.handle = nullptr;
     }
@@ -17,8 +16,9 @@ namespace raw
     {
         if (this != &other)
         {
-            close(0); // Закрываем текущий файл, если открыт
+            close();
             handle = other.handle;
+            close_flags_ = other.close_flags_;
             other.handle = nullptr;
         }
         return *this;
@@ -28,7 +28,7 @@ namespace raw
     {
         if (handle != nullptr)
         {
-            MP4Close(handle, 0);
+            MP4Close(handle, close_flags_);
         }
     }
 
@@ -36,7 +36,7 @@ namespace raw
     {
         if (handle == nullptr)
         {
-            throw std::runtime_error("MP4FileHandle is no longer valid (file has been closed)");
+            throw MP4Error("MP4FileHandle is no longer valid (file has been closed)");
         }
         return handle;
     }
@@ -46,12 +46,22 @@ namespace raw
         return handle != nullptr;
     }
 
-    void MP4FileHandleWrapper::close(uint32_t flags)
+    void MP4FileHandleWrapper::close(std::optional<uint32_t> flags)
     {
         if (handle != nullptr)
         {
-            MP4Close(handle, flags);
+            MP4Close(handle, flags.value_or(close_flags_));
             handle = nullptr;
         }
+    }
+
+    uint32_t MP4FileHandleWrapper::close_flags() const
+    {
+        return close_flags_;
+    }
+
+    void MP4FileHandleWrapper::set_close_flags(uint32_t flags)
+    {
+        close_flags_ = flags;
     }
 } // namespace raw

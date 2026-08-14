@@ -93,7 +93,8 @@ Before you submit a pull request, check that it meets these guidelines:
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
-   feature to the list in README.md.
+   feature to the list in README.md. Keep `examples/` working against the
+   live API; type stubs in `python/pymp4v2/*.pyi` must list every public name.
 3. The pull request should work for Python 3.9-3.13. Check
    https://github.com/DarkDemiurg/pymp4v2/actions
    and make sure that the tests pass for all supported Python versions.
@@ -109,7 +110,7 @@ To run a subset of tests.
 
 ## Deploying
 
-A reminder for the maintainers on how to deploy.
+A reminder for the maintainers on how to cut a GitHub Release.
 Make sure all your changes are committed (including an entry in CHANGELOG.md).
 Then run:
 
@@ -119,4 +120,9 @@ $ git push
 $ git push --tags
 ```
 
-GitHub Actions will then deploy to PyPI if tests pass.
+Pushing a `v*` tag runs `.github/workflows/publish.yml`: cibuildwheel
+(manylinux x86_64 and aarch64, Windows AMD64, macOS x86_64 and arm64),
+an sdist, and a GitHub Release with those artifacts.
+
+Nothing is uploaded to PyPI. There is no `publish_pypi` job and no
+Trusted Publishing.

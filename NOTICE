@@ -1,0 +1,25 @@
+pymp4v2
+=======
+
+pymp4v2 (the Python bindings, CMake build, and files in this repository
+other than vendored third-party licenses) is licensed under the MIT
+License. See LICENSE.
+
+This distribution contains object code from mp4v2, which is statically
+linked into the native Python extension. mp4v2 is licensed under the
+Mozilla Public License, version 1.1. A copy of that license is in
+licenses/mp4v2/COPYING.
+
+mp4v2 source used at build time
+-------------------------------
+
+  Project:  https://github.com/enzo1982/mp4v2
+  Tag:      v2.1.3
+  Commit:   f4c2f1b87446100728472d80fd1161d2f8e830b2
+  Tarball:  https://github.com/enzo1982/mp4v2/releases/download/v2.1.3/mp4v2-2.1.3.tar.bz2
+  SHA256:   033185c17bf3c5fdd94020c95f8325be2e5356558e3913c3d6547a85dd61f7f1
+
+CMake FetchContent downloads that official release tarball when the
+extension is built (see CMakeLists.txt). The Corresponding Source for
+the MPL-covered code in the binary is that tarball (and the tagged
+tree on GitHub).

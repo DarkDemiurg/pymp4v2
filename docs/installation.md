@@ -1,65 +1,70 @@
 ## Installation
 
-### From Source
+Wheels (manylinux, Windows, macOS) and an sdist are attached to
+[GitHub Releases](https://github.com/DarkDemiurg/pymp4v2/releases) for `v*`
+tags. They are not published to PyPI.
 
-1. Clone the repository:
+Download a wheel for your platform from the latest release, then:
+
+```bash
+pip install pymp4v2-*.whl
+```
+
+To build from git:
+
+```bash
+pip install git+https://github.com/DarkDemiurg/pymp4v2.git
+```
+
+### From source
 
 ```bash
 git clone https://github.com/DarkDemiurg/pymp4v2.git
 cd pymp4v2
+pip install .
 ```
 
-2. Install build dependencies:
+The build uses **scikit-build-core** and CMake. [mp4v2 v2.1.3](https://github.com/enzo1982/mp4v2/releases/tag/v2.1.3) is downloaded by FetchContent from the official release tarball (SHA256-pinned) and statically linked. The first configure needs network unless that tarball is already in the CMake FetchContent cache (`build/` when using the default `build-dir`).
+
+### Development
 
 ```bash
-pip install -e .[dev]
+pip install -e ".[dev]"
+pytest tests/
 ```
 
-3. Build and install the package:
+## Build requirements
 
-```bash
-python setup.py build_ext --inplace
-pip install -e .
-```
-
-### Development Installation
-
-For development, you might want to install additional tools:
-
-```bash
-pip install -e .[dev]
-```
-
-## Building from Source
+- Python 3.9+
+- C++17 compiler (GCC, Clang, or MSVC 2022)
+- CMake 3.28+ (installed automatically via pip if missing)
+- Ninja (optional; installed automatically via pip)
 
 ### Windows
 
-1. Install Visual Studio 2022 with C++ support
+1. Install Visual Studio 2022 with the C++ workload
 2. Install Python 3.9+
-3. Install CMake and add it to PATH
-4. Open Developer Command Prompt for VS 2022
-5. Run the build:
+3. From a Developer Command Prompt:
 
 ```bash
-python setup.py build_ext
+pip install .
 ```
 
 ### Linux
 
-Install build dependencies:
-
 ```bash
 # Ubuntu/Debian
 sudo apt-get update
-sudo apt-get install build-essential cmake ninja-build git python3-dev
+sudo apt-get install build-essential python3-dev
 
-# CentOS/RHEL
-sudo yum groupinstall "Development Tools"
-sudo yum install cmake ninja-build git python3-devel
+pip install .
 ```
 
-Run the build:
+### macOS
+
+Install Xcode Command Line Tools, then:
 
 ```bash
-python setup.py build_ext
+xcode-select --install
+pip install .
 ```
