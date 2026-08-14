@@ -7,7 +7,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "pymp4v2"
-version = "0.1.12"
+version = "0.1.13"
 description = "Python bindings for MP4v2 library"
 readme = "README.md"
 license = { text = "MIT AND MPL-1.1" }
