@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Docs workflow deploys MkDocs to GitHub Pages (`gh-pages`) on push to `master`.
 
 ## [0.1.13] - 2026-08-14
 ### Added

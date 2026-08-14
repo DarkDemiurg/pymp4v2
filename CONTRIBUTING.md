@@ -120,6 +120,10 @@ $ git push
 $ git push --tags
 ```
 
+Pushing to `master` runs `.github/workflows/docs.yml`: MkDocs build and
+deploy to the `gh-pages` branch (https://darkdemiurg.github.io/pymp4v2/).
+PRs only build; they do not publish. `tox -e docs` is `mkdocs build` locally.
+
 Pushing a `v*` tag runs `.github/workflows/publish.yml`: cibuildwheel
 (manylinux x86_64 and aarch64, Windows AMD64, macOS x86_64 and arm64),
 an sdist, a GitHub Release with those artifacts, then upload to PyPI
